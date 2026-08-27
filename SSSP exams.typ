@@ -104,12 +104,6 @@
 
 = 2025-07-18
 
-== 1
-
-Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2025-07-18)
-
-
-A:
 
 
 
@@ -126,7 +120,7 @@ A:
 
 
 
-== 3
+== 5
 
 Q: Consider the d'Alembert Equation, which governs the behavior of an ideal string or an acoustic tube. Derive a Finite Difference (FD) computational scheme for this equation. Specify the general condition that the sampling steps in space and time must satisfy. (2025-07-18)
 
@@ -144,7 +138,7 @@ A:
 
 
 
-== 5
+== 6
 
 Q: What is HRIR? How does it differ from BRIR? Briefly explain, using a block diagram, how you would implement an HRTF-based binaural rendering system. (2025-07-18)
 
@@ -155,29 +149,14 @@ A:
 
 = 2024-02-09
 
-== 1
-
-Q: Sinusoidal oscillator:
-
-- Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
-- Explain how to generalize the matrix of this model: what conditions does the matrix need to satisfy?
-- Offer an interpretation of such conditions based on eigenvalue decomposition. (2024-02-09)
-
-
-A:
 
 
 
-== 2
-
-Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2024-02-09)
-
-
-A:
 
 
 
-== 3
+
+== 5
 
 Q: Let us consider two portions of string of different section, which are attached together and modeled using Digital Waveguides. Derive and describe the junction that models the interconnection of such strings in the waveguide domain. Do so by defining the traveling waves and writing the continuity conditions at the connection. From there derive the mathematical description of the scattering junction. (2024-02-09)
 
@@ -195,41 +174,16 @@ A:
 
 
 
-== 5
-
-Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2024-02-09)
-
-
-A:
-
-
-
-== 6
-
-Q: If we want to build a late reverberation scheme, what kind of elementary IIR blocks do we use and how do we combine them together? How do we control the density of echoes and the density of resonances in the late reverberation using such combinations of blocks? (2024-02-09)
-
-
-A:
 
 
 
 = 2023-09-05
 
-== 1
-
-Q: Describe the principles behind granular synthesis. What are grains and what does the granulation process consist of? What types of granulations are commonly used? (2023-09-05)
-
-
-A:
 
 
 
-== 2
-
-Q: Consider sound propagation in a reverberant environment. What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2023-09-05)
 
 
-A:
 
 
 
@@ -242,16 +196,11 @@ A:
 
 
 
-== 4
-
-Q: What are the main auditory cues that we use in sound perception in a reverberant environment? Please discuss their role in perception of distance and direction. (2023-09-05)
-
-
-A:
 
 
 
-== 5
+
+== 6
 
 Q: Describe Digital Waveguides (DWGs) and their application to physical modeling. How do they differ from Wave Digital Filters? Is it possible to combine both approaches? If yes, how? (2023-09-05)
 
@@ -260,7 +209,7 @@ A:
 
 
 
-== 6
+== 7
 
 Q: Discuss the concepts of internal and external sound fields. (2023-09-05)
 
@@ -271,28 +220,10 @@ A:
 
 = 2023-07-19
 
-== 1
-
-Q: Consider the problem of sound synthesis by means of signal-based approaches.
-
-- Briefly report the idea behind the wavetable synthesis method.
-- Define and describe the Synchronous Overlap and Add (SOLA) method, explaining which is the wavetable synthesis problem that it can help solving. (2023-07-19)
-
-
-A:
 
 
 
-== 2
 
-Q: Consider the problem of synthesizing a reverberated audio signal.
-
-- Define the concept of Room Impulse Response (RIR) and highlight its component.
-- Consider a rectangular room with one microphone and one sound source. Considering only first-order reflections, i.e., after one reflection, the signal does not "bounce" on walls anymore, sketch a possible RIR. Hint: ignore the floor and the ceiling. Clearly report the labels on the axes.
-- Explain how it is possible to use a RIR to apply reverberation in the digital domain to a dry sound recording. (2023-07-19)
-
-
-A:
 
 
 
@@ -335,7 +266,7 @@ A:
 
 
 
-== 6
+== 7
 
 Q: Consider Wave Field Synthesis.
 
@@ -346,74 +277,8 @@ Q: Consider Wave Field Synthesis.
 A:
 
 
-
-= 2023-06-26
-
-== 1
-
-Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2023-06-26)
-
-
-A:
-
-
-
-== 2
-
-Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2023-06-26)
-
-
-A:
-
-
-
-== 3
-
-Q: Give a general description of granular synthesis and its practical use for the production of music. (2023-06-26)
-
-
-A:
-
-
-
-== 4
-
-Q: Describe the Feedback Delay Network scheme for reverberation modeling, with particular reference to:
-
-- In what way does it generalize COMB filters?
-- What conditions do diffusion matrices need to satisfy? (2023-06-26)
-
-
-A:
-
-
-
-== 5
-
-Q: Describe, with the help of a schematic representation, the main structure of a Leslie rotating speaker, providing details on the physical phenomena that characterize each element. Propose a block diagram to implement this structure with DSP technique. Carefully discuss the role of each block. (2023-06-26)
-
-
-A:
-
-
-
-== 6
-
-Q: Define the Energy Decay Curve. Define the reverberation time T60 and how it can be measured from the Energy Decay Curve. (2023-06-26)
-
-
-A:
-
-
-
 = 2022-09-07
 
-== 1
-
-Q: Describe the NonLinear Modeling of sounds and explain when and why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, please write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2022-09-07)
-
-
-A:
 
 
 
@@ -435,12 +300,7 @@ A:
 
 
 
-== 4
 
-Q: How does a feedback delay network (FDN) work for modeling and implementing reverberation? In what way does it generalize COMB filters? (2022-09-07)
-
-
-A:
 
 
 
@@ -464,30 +324,13 @@ A:
 
 = 2022-06-24
 
-== 1
-
-Q: Describe how to implement an oscillator in the form of a dynamical systems, in free evolution, starting from trigonometric formulas. (2022-06-24)
-
-
-A:
 
 
 
-== 2
-
-Q: Briefly describe the frequency modulation method for sound synthesis. What are operators, and what are the interconnection options? (2022-06-24)
-
-
-A:
 
 
 
-== 3
 
-Q: Describe in broad terms the design principles behind maximally flat fractional delay filter. (2022-06-24)
-
-
-A:
 
 
 
@@ -500,12 +343,7 @@ A:
 
 
 
-== 5
 
-Q: Assume you are in a large room, and you want to measure its reverberation time. You have access to an audio recording device with which you initially measure the level of background noise, noise floor. Then you record the room impulse response (RIR) corresponding to the impulsive sound produced by popping a balloon. Using the signal you acquire, how do you proceed with computing the reverberation time? Please begin by defining the reverberation time, then describe the steps that you take in order to measure the reverberation time. Assume that the level of impulsive noise produced by the popping of the balloon is 35 dB above the noise floor. How do you proceed in this case? (2022-06-24)
-
-
-A:
 
 
 
@@ -520,12 +358,6 @@ A:
 
 = 2022-02-11
 
-== 1
-
-Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2022-02-11)
-
-
-A:
 
 
 
@@ -556,12 +388,6 @@ A:
 
 
 
-== 5
-
-Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2022-02-11)
-
-
-A:
 
 
 
@@ -576,12 +402,7 @@ A:
 
 = 2022-01-17
 
-== 1
 
-Q: Briefly describe how to implement a generic dynamic oscillator in matrix form and describe an example oscillator that you can implement with it. (2022-01-17)
-
-
-A:
 
 
 
@@ -594,12 +415,7 @@ A:
 
 
 
-== 3
 
-Q: Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2022-01-17)
-
-
-A:
 
 
 
@@ -612,12 +428,6 @@ A:
 
 
 
-== 5
-
-Q: Define the reverberation time. Define the T60 and describe how to measure it. Explain how to estimate it when the noise floor is too high to measure it. (2022-01-17)
-
-
-A:
 
 
 
@@ -632,12 +442,6 @@ A:
 
 = 2021-08-31
 
-== 1
-
-Q: Describe granular synthesis in general terms. What are grains and what does the granulation process consist of? What types of granulations are commonly used and in what situations? (2021-08-31)
-
-
-A:
 
 
 
@@ -650,12 +454,6 @@ A:
 
 
 
-== 3
-
-Q: Describe in broad terms the maximally flat fractional delay filter. What are the conditions that you need to set in order to derive this filter? (2021-08-31)
-
-
-A:
 
 
 
@@ -668,12 +466,7 @@ A:
 
 
 
-== 5
 
-Q: Describe in broad terms the comb filter and the allpass filter as elementary building blocks for building and shaping a late reverberation filter. What role do they play in the design? How do you interconnect such building blocks? (2021-08-31)
-
-
-A:
 
 
 
@@ -688,33 +481,8 @@ A:
 
 = 2021-07-13
 
-== 1
-
-Q: Sinusoidal oscillator:
-
-a) Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
-
-b) Explain how to generalize the matrix of this model: what conditions does the matrix need to satisfy?
-
-c) Offer an interpretation of such conditions based on eigenvalue decomposition. (2021-07-13)
 
 
-A:
-
-
-
-== 2
-
-Q: Sound synthesis through nonlinear distortion:
-
-a) Describe sound synthesis based on waveshaping.
-
-b) What is the purpose of the nonlinearity in this process? How does its symmetry/asymmetry affect the result?
-
-c) Can phase or frequency modulation be classified as a waveshaping method? Please justify your answer. (2021-07-13)
-
-
-A:
 
 
 
@@ -755,12 +523,6 @@ A:
 
 = unknown
 
-== 1
-
-Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (unknown)
-
-
-A:
 
 
 
@@ -773,12 +535,7 @@ A:
 
 
 
-== 3
 
-Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (unknown)
-
-
-A:
 
 
 
@@ -803,6 +560,279 @@ A:
 == 6
 
 Q: Provide a comparison between Wave Field Synthesis and Higher-Order Ambisonics with specific reference to the nature of the approximations and their consequences on the reproduced sound field. In both cases, assume to consider a 2D rendering system characterized by a uniform circular array of loudspeakers. (unknown)
+
+
+A:
+
+
+= Oscillator and DPW
+
+== 1
+
+Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2025-07-18)
+
+
+A:
+
+== 2
+
+Q: Sinusoidal oscillator:
+
+- Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
+- Explain how to generalize the matrix of this model: what conditions does the matrix need to satisfy?
+- Offer an interpretation of such conditions based on eigenvalue decomposition. (2024-02-09)
+
+
+A:
+
+== 3
+
+Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2024-02-09)
+
+
+A:
+
+== 4
+
+Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2023-06-26)
+
+
+
+
+A:
+
+== 5
+
+Q: Give a general description of granular synthesis and its practical use for the production of music. (2023-06-26)
+
+
+A:
+
+== 6
+
+Q: Describe how to implement an oscillator in the form of a dynamical systems, in free evolution, starting from trigonometric formulas. (2022-06-24)
+
+
+A:
+
+== 7
+
+Q: Briefly describe how to implement a generic dynamic oscillator in matrix form and describe an example oscillator that you can implement with it. (2022-01-17)
+
+
+A:
+
+== 8
+
+Q: Sinusoidal oscillator:
+
+a) Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
+
+b) Explain how to generalize the matrix of this model: what conditions does the matrix need to satisfy?
+
+c) Offer an interpretation of such conditions based on eigenvalue decomposition. (2021-07-13)
+
+
+A:
+
+== 9
+
+Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (unknown)
+
+
+A:
+
+= Nonlinear
+
+== 1
+
+Q: Describe the NonLinear Modeling of sounds and explain when and why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, please write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2022-09-07)
+
+
+A:
+
+== 2
+
+Q: Briefly describe the frequency modulation method for sound synthesis. What are operators, and what are the interconnection options? (2022-06-24)
+
+
+
+
+A:
+
+== 3
+
+Q: Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2022-01-17)
+
+
+A:
+
+== 4
+
+Q: Sound synthesis through nonlinear distortion:
+
+a) Describe sound synthesis based on waveshaping.
+
+b) What is the purpose of the nonlinearity in this process? How does its symmetry/asymmetry affect the result?
+
+c) Can phase or frequency modulation be classified as a waveshaping method? Please justify your answer. (2021-07-13)
+
+
+A:
+
+= Wave table and Granular
+
+== 1
+
+Q: Describe the principles behind granular synthesis. What are grains and what does the granulation process consist of? What types of granulations are commonly used? (2023-09-05)
+
+
+A:
+
+== 1
+
+Q: Consider the problem of sound synthesis by means of signal-based approaches.
+
+- Briefly report the idea behind the wavetable synthesis method.
+- Define and describe the Synchronous Overlap and Add (SOLA) method, explaining which is the wavetable synthesis problem that it can help solving. (2023-07-19)
+
+
+A:
+
+== 1
+
+Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2023-06-26)
+
+
+A:
+
+
+== 1
+
+Q: Describe granular synthesis in general terms. What are grains and what does the granulation process consist of? What types of granulations are commonly used and in what situations? (2021-08-31)
+
+
+A:
+
+
+= Effects
+
+== 5
+
+Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2024-02-09)
+
+
+A:
+
+== 6
+
+Q: If we want to build a late reverberation scheme, what kind of elementary IIR blocks do we use and how do we combine them together? How do we control the density of echoes and the density of resonances in the late reverberation using such combinations of blocks? (2024-02-09)
+
+A:
+
+== 2
+
+Q: Consider sound propagation in a reverberant environment. What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2023-09-05)
+
+
+A:
+
+== 4
+
+Q: What are the main auditory cues that we use in sound perception in a reverberant environment? Please discuss their role in perception of distance and direction. (2023-09-05)
+
+
+A:
+
+== 2
+
+Q: Consider the problem of synthesizing a reverberated audio signal.
+
+- Define the concept of Room Impulse Response (RIR) and highlight its component.
+- Consider a rectangular room with one microphone and one sound source. Considering only first-order reflections, i.e., after one reflection, the signal does not "bounce" on walls anymore, sketch a possible RIR. Hint: ignore the floor and the ceiling. Clearly report the labels on the axes.
+- Explain how it is possible to use a RIR to apply reverberation in the digital domain to a dry sound recording. (2023-07-19)
+
+
+A:
+
+== 4
+
+Q: Describe the Feedback Delay Network scheme for reverberation modeling, with particular reference to:
+
+- In what way does it generalize COMB filters?
+- What conditions do diffusion matrices need to satisfy? (2023-06-26)
+
+
+A:
+
+== 5
+
+Q: Describe, with the help of a schematic representation, the main structure of a Leslie rotating speaker, providing details on the physical phenomena that characterize each element. Propose a block diagram to implement this structure with DSP technique. Carefully discuss the role of each block. (2023-06-26)
+
+
+A:
+
+
+== 6
+
+Q: Define the Energy Decay Curve. Define the reverberation time T60 and how it can be measured from the Energy Decay Curve. (2023-06-26)
+
+
+A:
+
+== 4
+
+Q: How does a feedback delay network (FDN) work for modeling and implementing reverberation? In what way does it generalize COMB filters? (2022-09-07)
+
+
+A:
+
+
+== 3
+
+Q: Describe in broad terms the design principles behind maximally flat fractional delay filter. (2022-06-24)
+
+
+A:
+
+== 5
+
+Q: Assume you are in a large room, and you want to measure its reverberation time. You have access to an audio recording device with which you initially measure the level of background noise, noise floor. Then you record the room impulse response (RIR) corresponding to the impulsive sound produced by popping a balloon. Using the signal you acquire, how do you proceed with computing the reverberation time? Please begin by defining the reverberation time, then describe the steps that you take in order to measure the reverberation time. Assume that the level of impulsive noise produced by the popping of the balloon is 35 dB above the noise floor. How do you proceed in this case? (2022-06-24)
+
+
+A:
+
+== 5
+
+Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2022-02-11)
+
+
+A:
+
+== 5
+
+Q: Define the reverberation time. Define the T60 and describe how to measure it. Explain how to estimate it when the noise floor is too high to measure it. (2022-01-17)
+
+
+A:
+
+== 3
+
+Q: Describe in broad terms the maximally flat fractional delay filter. What are the conditions that you need to set in order to derive this filter? (2021-08-31)
+
+
+A:
+
+== 5
+
+Q: Describe in broad terms the comb filter and the allpass filter as elementary building blocks for building and shaping a late reverberation filter. What role do they play in the design? How do you interconnect such building blocks? (2021-08-31)
+
+
+A:
+
+== 3
+
+Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (unknown)
 
 
 A:
