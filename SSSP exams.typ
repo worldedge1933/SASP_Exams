@@ -102,268 +102,11 @@
 
 
 
-= 2025-07-18
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-== 6
-
-Q: What is HRIR? How does it differ from BRIR? Briefly explain, using a block diagram, how you would implement an HRTF-based binaural rendering system. (2025-07-18)
-
-
-A:
-
-
-
-
-= 2023-09-05
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== 7
-
-Q: Discuss the concepts of internal and external sound fields. (2023-09-05)
-
-
-A:
-
-
-
-= 2023-07-19
-
-
-
-
-
-
-
-
-
-
-
-
-== 4
-
-Q: Consider the problem of binaural rendering.
-
-- Describe what is the Head-Related Transfer Function (HRTF).
-- Explain how it can be used for binaural rendering.
-- Explain how it is possible to take into account a virtual environment. (2023-07-19)
-
-
-A:
-
-
-
-
-
-
-== 7
-
-Q: Consider Wave Field Synthesis.
-
-- Describe the main idea behind it, and its relation to the Kirchhoff-Helmholtz integral.
-- What are the main limitations when it comes to implementing Wave Field Synthesis in practice? (2023-07-19)
-
-
-A:
-
-
-= 2022-09-07
-
-
-
-
-
-
-
-
-
-== 5
-
-Q: Describe the differences between the following three kinds of representation of the sound field used both in the recording phase of a sound scene and in the reproduction phase: channel-based approach, transform-domain approach and object-based approach. (2022-09-07)
-
-
-A:
-
-
-
-== 6
-
-Q: Describe a data-based approach for the capturing of Higher-Order Ambisonics signals in 3D. What geometry for the microphone array is usually employed? What are the limitations of this geometry with respect to the number of microphones, their placement and the frequency range of operation? (2022-09-07)
-
-
-A:
-
-
-
-= 2022-06-24
-
-
-
-
-
-
-
-
-
-
-
-
-
-== 6
-
-Q: Describe the principles of two-channel stereophony and derive the sine law of stereophony. Make sure you list the assumptions that you make for this derivation. (2022-06-24)
-
-
-A:
-
-
-
-= 2022-02-11
-
-
-
-
-
-
-
-
-
-
-
-== 6
-
-Q: Define the Head-Related Transfer Function (HRTF) and explain when and how it is used. (2022-02-11)
-
-
-A:
-
-
-
-= 2022-01-17
-
-
-
-
-
-
-
-
-
-== 6
-
-Q: Describe the physical principles on which relies the Wave Field Synthesis method. How would you describe an ideal Wave Field Synthesis system, assuming that there are no limitations in terms of realizability? (2022-01-17)
-
-
-A:
-
-
-
-= 2021-08-31
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== 6
-
-Q: Discuss in broad terms the primary auditory cues for spatial audio perception, both in free-field and in reverberant environments. (2021-08-31)
-
-
-A:
-
-
-
-= 2021-07-13
-
-
-
-
-
-
-
-
-
-
-
-== 5
-
-Q: Describe Vector-Based Amplitude Panning (VBAP) and the corresponding panning functions. (2021-07-13)
-
-
-A:
-
-
-
-= unknown
-
-
-
-
-
-
-
-
-== 4
-
-Q: Describe the binaural rendering method based on capturing signals with an array of microphones arranged on a rigid surface, motion-tracked binaural. Comment on a possible strategy to include a feedback of head movement and on how to interpolate microphone signals. (unknown)
-
-
-A:
-
-
-
-== 5
-
-Q: Describe the basic principles behind the traditional first-order Ambisonics method in 3D, with particular emphasis on the assumption needed to derive the method. What is the peculiarity of the first-order Ambisonics loudspeaker filters? Describe the B format for Ambisonics capturing. (unknown)
-
-
-A:
-
-
-
-== 6
-
-Q: Provide a comparison between Wave Field Synthesis and Higher-Order Ambisonics with specific reference to the nature of the approximations and their consequences on the reproduced sound field. In both cases, assume to consider a 2D rendering system characterized by a uniform circular array of loudspeakers. (unknown)
-
-
-A:
 
 
 = Oscillator and DPW
@@ -518,6 +261,14 @@ A:
 
 
 = Effects
+
+== 6
+
+Q: Explain why comb filters cannot be usefully cascaded but allpass filters can, and state the corresponding rule for how each type should be combined. (2026-07-23)
+
+
+A:
+
 
 == 1
 
@@ -1451,6 +1202,55 @@ This gives a much finer control of the loop delay and therefore of the generated
 
 = DWG & WDF
 
+
+== 7
+
+Q: A nonlinear resistor can be handled directly in the wave domain, but a nonlinear capacitor cannot.
+
+- State why the direct approach fails for the capacitor.
+- Explain the role of the mutator (across/through integration) in restoring an explicit scattering relation. (2026-07-23)
+
+
+A:
+
+A nonlinear resistor can be handled directly because its constitutive relation is memoryless
+
+$ F(v,i) = 0 $
+
+After the Kirchhoff-to-wave transformation, this can be converted directly into an algebraic scattering relation
+
+$ v^- = g(v^+) $
+
+A nonlinear capacitor is different because its constitutive relation is between voltage and charge
+
+$ F(v,q) = 0 $
+
+with
+
+$ i = dot(q) $
+
+Therefore it contains memory. A direct Wave Digital transformation would involve both a nonlinear operator and an integration or differentiation operator, and these operators cannot in general be interchanged. Hence the capacitor cannot be reduced directly to a memoryless scattering relation in the usual wave variables
+
+To overcome this, special wave variables are introduced using voltage $v$ and charge $q$
+
+$ u^+ = 1/2 (v + q/C_0) $
+
+$ u^- = 1/2 (v - q/C_0) $
+
+where $C_0$ is a reference capacitance
+
+In the $u^+,u^-$ domain, the nonlinear capacitor becomes an algebraic relation between $v$ and $q$, so it can be treated like a memoryless nonlinear resistor and written as a nonlinear reflection law
+
+$ u^- = g(u^+) $
+
+A mutator, also called an across integrator, maps the ordinary WD waves $(v^+,v^-)$ to the special waves $(u^+,u^-)$. It therefore separates the dynamic integration from the nonlinear algebraic characteristic and restores an explicit nonlinear scattering relation
+
+For computability, the mutator parameters are chosen so that its instantaneous reflection vanishes
+
+$ R C_0 = T_s/2 $
+
+The dual construction for a nonlinear inductor is the through integrator
+
 == 1
 
 Q: Consider the Wave Digital connection tree structure of an envelope follower circuit containing a single nonlinear diode D. Identify which ports require adaptation symbols directly on the diagram. Additionally, describe the computational flow executed at each sampling step to simulate the nonlinear circuit in the WD domain. (2025-07-18)
@@ -2047,3 +1847,283 @@ $ R_C = T_s/(2C) $
 The nonlinear scattering function is then obtained by using $R = R_"eq"$ in its wave transformation
 
 
+= Sound Field & Ambisonics & Wave Field Synthesis
+
+
+
+
+== 6
+
+Q: Arbitrary-order Ambisonics is often called a ``mode-matching'' method. Explain how it differs from amplitude panning, and state the key representation property that makes the encoded signals independent of both the recording and the reproduction setups. (2026-07-23)
+
+
+A:
+
+
+== 7
+
+
+Q: Discuss the concepts of internal and external sound fields. (2023-09-05)
+
+
+A:
+
+
+
+== 7
+
+Q: Consider Wave Field Synthesis.
+
+- Describe the main idea behind it, and its relation to the Kirchhoff-Helmholtz integral.
+- What are the main limitations when it comes to implementing Wave Field Synthesis in practice? (2023-07-19)
+
+
+A:
+
+
+== 6
+
+Q: Describe a data-based approach for the capturing of Higher-Order Ambisonics signals in 3D. What geometry for the microphone array is usually employed? What are the limitations of this geometry with respect to the number of microphones, their placement and the frequency range of operation? (2022-09-07)
+
+
+A:
+
+
+
+== 6
+
+Q: Describe the physical principles on which relies the Wave Field Synthesis method. How would you describe an ideal Wave Field Synthesis system, assuming that there are no limitations in terms of realizability? (2022-01-17)
+
+
+A:
+
+
+
+
+
+== 5
+
+Q: Describe the basic principles behind the traditional first-order Ambisonics method in 3D, with particular emphasis on the assumption needed to derive the method. What is the peculiarity of the first-order Ambisonics loudspeaker filters? Describe the B format for Ambisonics capturing. (unknown)
+
+
+A:
+
+
+
+== 6
+
+Q: Provide a comparison between Wave Field Synthesis and Higher-Order Ambisonics with specific reference to the nature of the approximations and their consequences on the reproduced sound field. In both cases, assume to consider a 2D rendering system characterized by a uniform circular array of loudspeakers. (unknown)
+
+
+A:
+
+
+
+= Perception & Binaural rendering
+
+
+
+
+
+
+== 6
+
+Q: What is HRIR? How does it differ from BRIR? Briefly explain, using a block diagram, how you would implement an HRTF-based binaural rendering system. (2025-07-18)
+
+
+A:
+
+
+
+
+== 4
+
+Q: Consider the problem of binaural rendering.
+
+- Describe what is the Head-Related Transfer Function (HRTF).
+- Explain how it can be used for binaural rendering.
+- Explain how it is possible to take into account a virtual environment. (2023-07-19)
+
+
+A:
+
+
+== 6
+
+Q: Define the Head-Related Transfer Function (HRTF) and explain when and how it is used. (2022-02-11)
+
+
+A:
+
+
+
+
+== 6
+
+Q: Discuss in broad terms the primary auditory cues for spatial audio perception, both in free-field and in reverberant environments. (2021-08-31)
+
+
+A:
+
+
+== 4
+
+Q: Describe the binaural rendering method based on capturing signals with an array of microphones arranged on a rigid surface, motion-tracked binaural. Comment on a possible strategy to include a feedback of head movement and on how to interpolate microphone signals. (unknown)
+
+
+A:
+
+
+
+= Stereophony and Panning
+
+== 6
+
+Q: Sine law of stereophony. --- The target is a plane wave from direction $theta$, with phase $angle(p)_"target" (x, 0, omega) = omega / c sin theta x$. Equate it to the linearized phase of the loudspeaker pair and derive the sine panning law. Then solve it for the gain ratio $g_L / g_R$. (2026-07-23)
+
+
+A:
+
+
+
+
+
+== 5
+
+Q: Describe the differences between the following three kinds of representation of the sound field used both in the recording phase of a sound scene and in the reproduction phase: channel-based approach, transform-domain approach and object-based approach. (2022-09-07)
+
+
+A:
+
+
+
+
+== 6
+
+Q: Describe the principles of two-channel stereophony and derive the sine law of stereophony. Make sure you list the assumptions that you make for this derivation. (2022-06-24)
+
+
+A:
+
+
+
+
+== 5
+
+Q: Describe Vector-Based Amplitude Panning (VBAP) and the corresponding panning functions. (2021-07-13)
+
+
+A:
+
+
+
+
+
+= Others 
+
+== 8
+
+Q: Two equal masses $m$ are coupled as
+
+$
+  m dot.double(x)_1 + k x_1 + k(x_1 - x_2) = 0,
+  quad
+  m dot.double(x)_2 + k x_2 + k(x_2 - x_1) = 0.
+$
+
+where $x_1$ and $x_2$ are the position of the masses along the $x$ axis. Using the change of variables
+
+$
+  mat(q_1, q_2) = mat(1, 1; 1, -1) mat(x_1, x_2),
+$
+
+show the system decouples into $dot.double(q)_1 = -omega_0^2 q_1$ and $dot.double(q)_2 = -3 omega_0^2 q_2$ with $omega_0^2 = k / m$, and identify the two modal frequencies. (2026-07-23)
+
+
+A:
+
+
+
+
+= questions by topics
+
+== 1 Signal-Based Synthesis
+
+=== 1.2 Sinusoidal Oscillators
+
+- Briefly describe how to implement a generic discrete oscillator in matrix form and describe some of the oscillators you can implement with it. (2025-06-23)
+- Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2022-07-15)
+- Briefly describe how to implement a dynamic oscillator starting from trigonometric formulas. (2020-06-17)
+
+=== 1.3 Additive Synthesis
+
+- Describe the sinusoidal + noise analysis model and explain how the noise envelope is extracted for synthesis. (2024-09-04)
+
+=== 1.4 Oscillators
+
+- DPW for sawtooths and its advantages over the ramp function. (2025-01-08)
+- Describe different methods for generating a sawtooth waveform. (2024-07)
+- Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2020-06-15)
+
+=== 1.5 Non-linear Modelling
+
+- Describe nonlinear modeling of sounds and explain why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2025-06-23)
+- Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2020-06-17)
+
+=== 1.6 Wavetable Sampling Synthesis
+
+- Describe a sinusoidal wavetable oscillator and explain how to generate a wave with a different frequency if the recorded sound has to be modified. (2024-09-04)
+- Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2022-02-11)
+
+== 2 Digital Audio Effects
+
+=== 2.2 Audio equalization
+
+- Describe with the help of a block diagram how to implement a first-order shelving filter for digital audio equalization. Focus in particular on explaining the role of the all-pass filter in the design. (2025-06-23)
+- Describe the equalizer pipeline, indicating which filters are used for its implementation. Explain, with the help of a block diagram, how these filters can be implemented with all-pass filters. (2024-09-04)
+
+=== 2.4 Delay-based effects
+
+- Describe a block diagram for implementing the effect of the "Leslie" (speaker that rotates around an axis that does not pass through its membrane), using simple elements such as modulated delay lines. Start from the physical phenomena that you need to simulate and find the blocks that implement them. Finally, show how to put such blocks together. (2021-02-01)
+
+== 3 Source-Based Synthesis
+
+=== 3.10 Ideal String FD Scheme
+
+- Consider the d'Alembert Equation, which governs the behavior of an ideal string or an acoustic tube. Derive a Finite Difference (FD) computational scheme for this equation. Specify the general condition that the sampling steps in space and time must satisfy. (2022-07-15)
+
+=== 3.12 Modal Synthesis
+
+- Explain modal synthesis and illustrate it with a block diagram. (2024-07)
+
+=== 3.14 Digital WaveGuide
+
+- Let us consider two portions of strings of different section which are attached together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such strings in the wave digital domain. By so doing, deducing the travelling waves and writing the continuity conditions of the connection, from there derive the mathematical description of the scattering junction. (2025-06-23)
+- Let us consider two acoustic tubes of different section, which are to be joined together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such tubes in the Wave Digital domain. (2020-06-17)
+
+=== 3.7 Karplus-Strong Algorithm
+
+- Karplus-Strong algorithm for tuning a string. (2025-01-08)
+- Describe the model of a digital string based on the Karplus-Strong algorithm (use a scheme and comment on it). Why do we need a fractional delay for fine-tuning such a model? Please explain that by showing what happens to the pitch of the tone generated by the KS algorithm, when adding one delay element to the delay line. (2022-07-15)
+- Describe the Karplus-Strong algorithm and the related issues concerning tuning. How do you overcome such issues? (2020-06-17)
+
+=== 3.9 Discretization of Lumped Models (background)
+
+- Demonstrate the trapezoidal rule for discretization, showing how it is used to map from the s-domain to the z-domain. (2024-07)
+
+== 4 Wave Digital Systems
+
+=== 4.4 Linking Blocks
+
+- Explain the differences between scattering cells in Digital WaveGuides and Wave Digital Filters. (2021-02-01)
+
+=== 4.5 Modelling Non-linear Elements
+
+- Briefly explain how to model a circuit using WDF, when the circuit has a resistive nonlinearity. How do you derive the nonlinearity in the wave digital domain starting from its Kirchhoff description? And how does this wave description of the nonlinearity depend on the rest of the circuit? If you prefer, you can discuss the specific case of a simple RLC circuit (all elements connected in series), with a nonlinear resistor. (2021-06-15)
+
+== 5 Modelling and Implementation of Wave Digital Filters
+
+=== 5.5 Modelling the Topology
+
+- A problem on free parameter in WDF. Role of Z in adaptation. (2025-01-08)
+- Consider the following mechanical model made of a spring of stiffness coefficient K, a mass M, along with a friction with damping coefficient C. The position of the mass is described by the variable x. Derive the electrical equivalent circuit of this system and the corresponding Wave Digital Filter structure. Please make sure you specify the port-adaptation conditions, or the block adaptation conditions that make the whole WDF implementation computable. (2022-07-15)
