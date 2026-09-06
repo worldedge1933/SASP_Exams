@@ -112,14 +112,194 @@
 = Oscillator and DPW
 
 == 1
-
 Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2025-07-18)
 
 
 A:
 
-== 2
+A sinusoidal ballistic oscillator can be described by a two-dimensional state vector whose next state is obtained through a linear transformation of the current state
 
+$
+mat(hat(x)_1; hat(x)_2)
+=
+A mat(x_1; x_2)
+=
+mat(a,b;c,d) mat(x_1;x_2)
+$
+
+Since the oscillator is ballistic, after initialization it evolves freely by repeatedly applying the same matrix
+
+$
+bold(x)_n = A^n bold(x)_0
+$
+
+For the system to behave as a sustained oscillator, the matrix must satisfy
+
+$
+det(A) = a d - b c = 1
+$
+
+$
+abs(a+d) < 2
+$
+
+The first condition gives unit loop gain, so the oscillation does not exponentially grow or decay. Together with the second condition, it ensures that the two eigenvalues of the real matrix are a complex-conjugate pair with unit magnitude
+
+$
+lambda_(1,2) = e^(plus.minus j theta)
+$
+
+where
+
+$
+theta = arccos((a+d)/2)
+$
+
+Using the eigenvalue decomposition
+
+$
+A = Q D Q^(-1)
+$
+
+$
+D = mat(e^(j theta),0;0,e^(-j theta))
+$
+
+we obtain
+
+$
+A^n = Q D^n Q^(-1)
+$
+
+$
+D^n = mat(e^(j n theta),0;0,e^(-j n theta))
+$
+
+Therefore, in the eigenvector basis, the state consists of two complex-conjugate rotations in opposite directions. Mapping them back through $Q$ produces a real sinusoidal oscillation. The angle $theta$ is the phase increment per iteration and therefore determines the oscillation frequency
+
+$
+f_0 = theta F_s / (2 pi)
+$
+
+
+== 2
+Q: Briefly describe how to implement a generic discrete oscillator in matrix form and describe some of the oscillators you can implement with it. (2025-06-23)
+
+
+A:
+
+A generic discrete oscillator can be implemented with two state variables updated by a constant $2 times 2$ matrix
+
+$
+mat(hat(x)_1; hat(x)_2)
+=
+A mat(x_1; x_2)
+=
+mat(a,b;c,d) mat(x_1;x_2)
+$
+
+At each sample, the new state is obtained from the previous one by the same linear transformation. To obtain a sustained sinusoidal oscillation, the matrix should satisfy
+
+$
+det(A)=a d-b c=1
+$
+
+$
+abs(a+d)<2
+$
+
+These conditions give a pair of complex-conjugate eigenvalues with unit magnitude, so the state evolves as a rotation rather than growing or decaying.
+
+Different choices of $A$ lead to different oscillator structures. For example, a coupled-form oscillator can use the rotation matrix
+
+$
+A=
+mat(cos(theta),-sin(theta);sin(theta),cos(theta))
+$
+
+A biquad oscillator is obtained with
+
+$
+A=
+mat(k,-1;1,0)
+$
+
+$
+k=2cos(theta)
+$
+
+A digital-waveguide oscillator is obtained with
+
+$
+A=
+mat(k,k-1;k+1,k)
+$
+
+$
+k=cos(theta)
+$
+
+Different matrix structures can therefore realize equal-amplitude or quadrature outputs with different computational costs
+
+== 3
+Q: DPW for sawtooths and its advantages over the ramp function. (2025-01-08)
+
+
+A:
+
+The direct ramp method generates a sawtooth by sampling a continuous-time linear ramp or, equivalently, by using a bipolar modulo counter. Since an ideal sawtooth is not band-limited, harmonics above the Nyquist frequency fold back into the audible band and produce strong aliasing.
+
+The Differentiated Parabolic Wave (DPW) method reduces this problem. It first generates the trivial sawtooth $r(n)$ and squares it to obtain a piecewise parabolic waveform
+
+$
+p(n) = r^2(n)
+$
+
+The parabolic waveform is then differentiated using the first-order FIR differentiator
+
+$
+D(z) = 1 - z^(-1)
+$
+
+and the result is properly scaled to obtain a sawtooth-like signal.
+
+The key advantage is that the spectrum of the parabolic waveform decays at about $-12$ dB/octave, so high-frequency components produce much less aliasing before differentiation. Therefore, DPW produces a sawtooth with significantly reduced aliasing compared with direct ramp sampling, while remaining computationally simple and efficient.
+
+== 4
+Q: Describe different methods for generating a sawtooth waveform. (2024-07)
+
+
+A:
+
+A sawtooth waveform can be generated in several ways.
+
+1. The simplest method is to sample an ideal continuous-time ramp, or equivalently to use a bipolar modulo counter
+
+$
+s(n) = 2 [ n f_0 / F_s ]_("mod 1") - 1
+$
+
+This method is very simple, but it produces strong aliasing because the ideal sawtooth contains infinitely many harmonics and those above the Nyquist frequency fold back into the audible band.
+
+2. A band-limited sawtooth can be obtained by additive synthesis, summing only the harmonics below the Nyquist frequency
+
+$
+s(n) = - sum_(k=1)^K 1/k sin(2 pi k f_0 n / F_s)
+$
+
+This strongly reduces aliasing, but its computational cost grows with the number of harmonics $K$, especially for low fundamental frequencies.
+
+3. The Differentiated Parabolic Wave method first generates the trivial sawtooth, squares it to obtain a piecewise parabolic waveform, and then differentiates it with
+
+$
+D(z) = 1 - z^(-1)
+$
+
+The result is then properly scaled. Since the parabolic waveform has a faster spectral decay, DPW produces much less aliasing than direct ramp sampling while remaining computationally efficient.
+
+Further aliasing reduction can be obtained by oversampling the DPW signal and then applying a low-pass decimation filter
+
+== 5
 Q: Sinusoidal oscillator:
 
 - Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
@@ -129,15 +309,100 @@ Q: Sinusoidal oscillator:
 
 A:
 
-== 3
+Starting from the trigonometric identities
 
+$
+cos(phi + theta) = cos(phi) cos(theta) - sin(phi) sin(theta)
+$
+
+$
+sin(phi + theta) = cos(phi) sin(theta) + sin(phi) cos(theta)
+$
+
+define the two state variables as the cosine and sine components of the oscillator. Their next values are
+
+$
+hat(x)_1 = cos(theta) x_1 - sin(theta) x_2
+$
+
+$
+hat(x)_2 = sin(theta) x_1 + cos(theta) x_2
+$
+
+Hence, the oscillator can be written in matrix form as
+
+$
+mat(hat(x)_1; hat(x)_2)
+=
+mat(cos(theta), -sin(theta); sin(theta), cos(theta))
+mat(x_1; x_2)
+$
+
+The matrix is a rotation matrix: at every iteration the state vector is rotated by the angle $theta$. Therefore, the oscillation frequency is
+
+$
+f_0 = theta F_s / (2 pi)
+$
+
+The model can be generalized to
+
+$
+mat(hat(x)_1; hat(x)_2)
+=
+A mat(x_1; x_2)
+$
+
+with
+
+$
+A = mat(a,b;c,d)
+$
+
+For this system to behave as a sustained oscillator, the matrix must satisfy the Barkhausen conditions
+
+$
+det(A) = a d - b c = 1
+$
+
+$
+abs(a + d) < 2
+$
+
+The first condition gives unitary loop gain, while the two conditions together ensure that the eigenvalues are a complex-conjugate pair with unit magnitude.
+
+Using eigenvalue decomposition
+
+$
+A = Q D Q^(-1)
+$
+
+we obtain
+
+$
+A^n = Q D^n Q^(-1)
+$
+
+where
+
+$
+D = mat(e^(j theta),0;0,e^(-j theta))
+$
+
+and
+
+$
+theta = arccos((a + d)/2)
+$
+
+Thus, in the eigenvector basis, the dynamics correspond to two complex-conjugate rotations in opposite directions. $Q$ maps the state into this internal space and $Q^(-1)$ maps it back to the real state space. Since the eigenvalues have unit magnitude, the oscillation neither grows nor decays
+
+== 6
 Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2024-02-09)
 
 
 A:
 
-== 4
-
+== 7
 Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2023-06-26)
 
 
@@ -145,29 +410,125 @@ Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing a
 
 A:
 
-== 5
 
-Q: Give a general description of granular synthesis and its practical use for the production of music. (2023-06-26)
+== 9
+Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2022-07-15)
 
 
 A:
 
-== 6
 
+
+== 10
 Q: Describe how to implement an oscillator in the form of a dynamical systems, in free evolution, starting from trigonometric formulas. (2022-06-24)
 
 
 A:
 
-== 7
+Starting from the trigonometric identities
 
+$
+cos(phi + theta) = cos(phi) cos(theta) - sin(phi) sin(theta)
+$
+
+$
+sin(phi + theta) = cos(phi) sin(theta) + sin(phi) cos(theta)
+$
+
+define the two state variables as
+
+$
+x_1 = cos(phi)
+$
+
+$
+x_2 = sin(phi)
+$
+
+After one iteration, the phase increases by $theta$, so
+
+$
+hat(x)_1 = cos(theta) x_1 - sin(theta) x_2
+$
+
+$
+hat(x)_2 = sin(theta) x_1 + cos(theta) x_2
+$
+
+This gives the dynamical-system representation
+
+$
+mat(hat(x)_1; hat(x)_2)
+=
+mat(cos(theta), -sin(theta); sin(theta), cos(theta))
+mat(x_1; x_2)
+$
+
+The matrix is a rotation matrix. Therefore, once the initial state is given, the oscillator evolves freely by repeatedly rotating the state vector
+
+$
+bold(x)_n = A^n bold(x)_0
+$
+
+The rotation angle per sample is $theta$, which determines the oscillator frequency
+
+$
+f_0 = theta F_s / (2 pi)
+$
+
+Thus, the oscillator is in free evolution: after initialization, no external input is required and the state recursively generates the sinusoidal signal
+
+== 11
 Q: Briefly describe how to implement a generic dynamic oscillator in matrix form and describe an example oscillator that you can implement with it. (2022-01-17)
 
 
 A:
 
-== 8
+A generic dynamic oscillator can be implemented with two state variables updated by a constant $2 times 2$ matrix
 
+$
+mat(hat(x)_1; hat(x)_2)
+=
+A mat(x_1; x_2)
+$
+
+with
+
+$
+A = mat(a,b;c,d)
+$
+
+At each iteration, the new state is obtained from the previous one by the same linear transformation. For sustained oscillation, the matrix must satisfy
+
+$
+det(A) = a d - b c = 1
+$
+
+$
+abs(a + d) < 2
+$
+
+An example is the biquad oscillator
+
+$
+A = mat(k,-1;1,0)
+$
+
+with
+
+$
+k = 2 cos(theta)
+$
+
+which corresponds to the recursion
+
+$
+x(n) = k x(n-1) - x(n-2)
+$
+
+and generates a sinusoidal oscillation whose frequency is determined by $theta$
+
+== 12
 Q: Sinusoidal oscillator:
 
 a) Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
@@ -179,8 +540,19 @@ c) Offer an interpretation of such conditions based on eigenvalue decomposition.
 
 A:
 
-== 9
+== 13
+Q: Briefly describe how to implement a dynamic oscillator starting from trigonometric formulas. (2020-06-17)
 
+
+A:
+
+== 14
+Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2020-06-15)
+
+
+A:
+
+== 15
 Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (unknown)
 
 
@@ -189,14 +561,48 @@ A:
 = Nonlinear
 
 == 1
+Q: Describe nonlinear modeling of sounds and explain why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2025-06-23)
 
+
+A:
+
+Nonlinear modeling uses nonlinear transformations to modify or generate spectral components. Unlike LTI systems, which can only change the amplitude and phase of existing components, nonlinear systems can create new frequencies. This is useful for spectral enrichment, modeling nonlinear devices such as tube amplifiers, spectral shifting, and generating complex sounds from simple signals.
+
+Waveshaping is a memoryless nonlinear mapping: the output depends only on the current input sample
+
+$ y(n) = F(x(n)) $
+
+For example, a polynomial approximation can be written as
+
+$ y(n) = sum_(i=0)^N a_i x^i (n) $
+
+A sinusoidal input therefore generates harmonics at integer multiples of its frequency.
+
+Modulation instead uses one signal to modify another signal. Examples are ring modulation, amplitude modulation and frequency modulation. It mainly produces shifted spectral components or sidebands. For example, ring modulation multiplies two signals, while FM changes the instantaneous phase or frequency of a carrier.
+
+For a sinusoidal input
+
+$ x(n) = A cos(omega_0 n) $
+
+a nonlinear system may produce
+
+$ y(n) = sum_(k=0)^N A_k cos(k omega_0 n) $
+
+Harmonic distortion is measured by the total harmonic distortion
+
+$ "THD" = sqrt((sum_(k=2)^N A_k^2)/(sum_(k=1)^N A_k^2)) $
+
+It measures the relative amount of energy contained in the generated harmonics, excluding the fundamental from the numerator. A larger THD therefore means stronger nonlinear harmonic distortion.
+
+This definition is especially meaningful for nonlinear mappings such as waveshaping, where a sinusoidal input produces components at integer multiples of the input frequency. It is generally less meaningful for modulation techniques, because modulation can generate sidebands or inharmonic components that are not harmonics of the original sinusoid.
+
+== 2
 Q: Describe the NonLinear Modeling of sounds and explain when and why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, please write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2022-09-07)
 
 
 A:
 
-== 2
-
+== 3
 Q: Briefly describe the frequency modulation method for sound synthesis. What are operators, and what are the interconnection options? (2022-06-24)
 
 
@@ -204,15 +610,55 @@ Q: Briefly describe the frequency modulation method for sound synthesis. What ar
 
 A:
 
-== 3
+Frequency modulation (FM) synthesis generates complex spectra by modulating the instantaneous phase or frequency of a sinusoidal carrier with another signal. With a sinusoidal modulator
 
+$ phi(n) = I(n) sin(omega_m (n)n) $
+
+the synthesized signal is
+
+$ s(n) = a(n) sin(omega_c (n)n + I(n) sin(omega_m(n)n)) $
+
+The modulation creates sidebands at frequencies
+
+$ abs(omega_c + k omega_m) $
+
+and their amplitudes are controlled by the modulation index $I$. FM synthesis is versatile, computationally efficient, and can generate rich spectra with relatively few parameters.
+
+An operator is an oscillator or FM module used as a building block of the synthesis structure. An operator can act as a carrier, whose output contributes to the final sound, or as a modulator, whose output modulates another operator.
+
+The main interconnection options are:
+
+- Basic modulation: one modulator controls one carrier
+- Compound modulation: several modulators are summed and jointly modulate one carrier
+- Nested modulation: one modulator is itself modulated by another operator, forming a cascade
+- Feedback modulation: a delayed previous output of an operator is fed back to modulate itself
+
+Different interconnections produce different spectral structures and allow complex sounds to be generated with a small number of oscillators
+
+
+== 4
 Q: Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2022-01-17)
 
 
 A:
 
-== 4
+Waveshaping is a memoryless nonlinear synthesis method: each output sample depends only on the current input sample through a nonlinear distortion function
 
+$ y(n) = F(x(n)) $
+
+The nonlinear characteristic can be approximated by a polynomial
+
+$ y(n) = sum_(i=0)^N a_i x^i(n) $
+
+When the input is sinusoidal, the nonlinear terms generate new harmonics, so waveshaping can enrich the spectrum and produce effects such as overdrive and distortion.
+
+With a symmetrical characteristic, the nonlinear function is odd and positive and negative input values are processed symmetrically. It mainly generates odd harmonics. It is typically approximately linear for small input amplitudes and saturates as the amplitude increases
+
+$ F(-x) = -F(x) $
+
+With an asymmetrical characteristic, positive and negative input values are processed or clipped differently. The characteristic is no longer odd, so both even and odd harmonics are generated. This can model nonlinear behavior such as that of triode tubes
+
+== 5
 Q: Sound synthesis through nonlinear distortion:
 
 a) Describe sound synthesis based on waveshaping.
@@ -224,17 +670,95 @@ c) Can phase or frequency modulation be classified as a waveshaping method? Plea
 
 A:
 
+a) Waveshaping is a memoryless nonlinear synthesis method in which each output sample is obtained by applying a nonlinear distortion function to the current input sample
+
+$ y(n) = F(x(n)) $
+
+The nonlinear function can be approximated by a polynomial
+
+$ y(n) = sum_(i=0)^N a_i x^i(n) $
+
+If the input is sinusoidal, the nonlinear terms generate new harmonic components, producing a spectrally richer sound.
+
+b) The purpose of the nonlinearity is to generate new spectral components that cannot be produced by an LTI system. It can therefore be used for spectral enrichment and for effects such as overdrive and distortion.
+
+A symmetric characteristic is typically an odd function
+
+$ F(-x) = -F(x) $
+
+so positive and negative samples are treated symmetrically and mainly odd harmonics are generated.
+
+An asymmetric characteristic treats positive and negative samples differently, so both even and odd harmonics are generated. It can approximate nonlinear behavior such as that of triode tubes.
+
+c) No. Phase and frequency modulation are not waveshaping methods. Waveshaping is a static memoryless mapping from the current input sample to the current output sample. In phase or frequency modulation, one signal controls the phase or frequency of an oscillator and produces sidebands. In FM, the phase is also updated recursively
+
+$ phi(n) = phi(n - 1) + omega_c (n)n + phi_m (n) $
+
+Therefore, modulation is based on changing an oscillator parameter rather than applying a memoryless nonlinear function directly to an input sample
+
+
+== 6
+Q: Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2020-06-17)
+
+
+A:
+
 = Wave table and Granular
 
 == 1
+Q: Describe the sinusoidal + noise analysis model and explain how the noise envelope is extracted for synthesis. (2024-09-04)
 
+
+A:
+
+The sinusoidal + noise model represents a sound as the sum of a deterministic sinusoidal component and a stochastic noise component
+
+$
+s(t) = sum_(r=1)^R A_r(t) cos(theta_r(t)) + e(t)
+$
+
+The sinusoidal part is obtained by STFT peak detection and tracking, while $e(t)$ is the residual and is modeled as time-varying filtered white noise.
+
+To extract the noise envelope, the sinusoidal component is first reconstructed and subtracted from the original signal, either in the frequency domain or in the time domain. The magnitude spectrum of the residual is then approximated by a piecewise-linear spectral envelope.
+
+For synthesis, this envelope is combined with a random phase spectrum and transformed back to the time domain by IFFT. The synthesized stochastic component is finally added to the resynthesized sinusoidal component.
+
+== 2
+
+Q: Describe a sinusoidal wavetable oscillator and explain how to generate a wave with a different frequency if the recorded sound has to be modified. (2024-09-04)
+
+
+A:
+
+A sinusoidal wavetable oscillator pre-computes one period of a sinusoid and stores its $L$ samples in a circular table. If $T_s$ is the sampling period, the stored period is
+
+$
+T_0 = L T_s
+$
+
+To generate a sinusoid with a desired frequency $f_0$, the table index is advanced at each output sample by
+
+$
+Delta = (f_0 L) / F_s
+$
+
+where $F_s$ is the sampling frequency. If $Delta$ is fractional, interpolation between adjacent table samples is required.
+
+For a recorded sound, one or more periods of its sustain part can be stored and cyclically read. Changing the reading increment changes the reproduced pitch, while the attack transient can be reproduced directly from the original samples.
+
+== 3
 Q: Describe the principles behind granular synthesis. What are grains and what does the granulation process consist of? What types of granulations are commonly used? (2023-09-05)
 
 
 A:
 
-== 2
+Granular synthesis assumes that a sound can be represented as a sequence of many small elementary acoustic events called grains, possibly overlapping. The waveform, amplitude and temporal location of the grains determine the resulting timbre.
 
+Granulation consists of selecting or generating short sound segments, shaping them with an amplitude envelope, and organizing and combining them in time, usually by overlap-add. The temporal organization is important to avoid discontinuities and artifacts.
+
+Granular synthesis can use sampled sounds or abstractly generated grains. Common high-level organizations include Fourier or wavelet grids, pitch-synchronous overlapping streams (PSGS), asynchronous granular clouds (AGS), and time-granulated or sampled-sound streams. PSGS uses seamless joins such as SOLA or PSOLA, while AGS distributes grains irregularly on the time-frequency plane, often randomly within a controlled mask.
+
+== 4
 Q: Consider the problem of sound synthesis by means of signal-based approaches.
 
 - Briefly report the idea behind the wavetable synthesis method.
@@ -243,73 +767,191 @@ Q: Consider the problem of sound synthesis by means of signal-based approaches.
 
 A:
 
-== 3
+a) Wavetable synthesis extends the wavetable-oscillator idea to sampled, non-sinusoidal waveforms. The attack can be reproduced directly, while one or more periods of the sustain part are stored in a buffer and cyclically read. The reading increment determines the reproduced pitch.
 
-Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2023-06-26)
+b) SOLA, Synchronous Overlap and Add, joins successive signal segments by overlapping them and adjusting their relative position so that the waveforms match well in the overlap region, then smoothly combining the overlapping parts. In wavetable synthesis, it helps reduce discontinuities and audible artifacts at loop boundaries, producing smoother and nearly seamless joins.
+
+== 8
+Q: Give a general description of granular synthesis and its practical use for the production of music. (2023-06-26)
 
 
 A:
 
 
+Granular synthesis represents a complex sound as a large number of short elementary acoustic events called grains, which may overlap in time. The waveform, amplitude and temporal position of the grains determine the resulting timbre.
 
-== 4
+In practice, grains can be extracted from sampled sounds or generated synthetically, shaped by an amplitude envelope, and combined using overlap-add. By controlling grain timing, density and distribution, granular synthesis can create evolving textures, noisy sounds and transformed versions of recorded material. Common organizations include pitch-synchronous streams and asynchronous granular clouds.
 
+== 5
+Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2023-06-26)
+
+
+A:
+
+A wavetable oscillator pre-computes one period of a waveform and stores $L$ equally spaced samples in a circular table. The table is read cyclically. For a desired frequency $f_0$, the table position is advanced at each output sample by
+
+$
+Delta = (f_0 L) / F_s
+$
+
+Pros: the waveform is generated by table lookup instead of computing it sample by sample, and different frequencies can be obtained from the same table by changing $Delta$.
+
+Cons: a finite table has limited resolution, and fractional reading positions require interpolation. A larger table gives better accuracy but requires more memory.
+
+For linear interpolation, let the desired table position be $p = i + alpha$, where $i$ is the integer part and $0 <= alpha < 1$. Using two adjacent table samples $x[i]$ and $x[i+1]$
+
+$
+y = (1-alpha)x[i] + alpha x[i+1]
+$
+
+== 6
+Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2022-02-11)
+
+
+A:
+
+== 7
 Q: Describe granular synthesis in general terms. What are grains and what does the granulation process consist of? What types of granulations are commonly used and in what situations? (2021-08-31)
 
 
 A:
 
 
+Granular synthesis assumes that a sound can be represented as a sequence of short elementary acoustic events called grains, possibly overlapping. The waveform, amplitude and temporal location of the grains determine the resulting timbre.
+
+Granulation consists of selecting or generating short sound segments, shaping them with an amplitude envelope, and organizing them in time. The grains are usually windowed and combined by overlap-add. Their timing must be carefully controlled to avoid discontinuities and artifacts.
+
+Common organizations are pitch-synchronous granular synthesis, asynchronous granular synthesis, and time-granulation of sampled sounds. Pitch-synchronous streams use seamless joins such as SOLA or PSOLA and are useful for pitched signals. Asynchronous granular synthesis distributes grains irregularly on the time-frequency plane and is useful for producing evolving sound textures and natural noisy sounds, where statistical properties are more important than the exact waveform evolution. Time-granulation is mainly used to transform recorded sounds.
+
+
 = Effects
 
-== 6
-
+== 1
 Q: Explain why comb filters cannot be usefully cascaded but allpass filters can, and state the corresponding rule for how each type should be combined. (2026-07-23)
 
 
 A:
 
+Comb filters should not be cascaded because cascading multiplies their transfer functions, so frequency peaks that are not shared by all the comb filters are cancelled. Therefore, comb filters should be combined in parallel.
 
-== 1
+Allpass filters can be cascaded because the cascade of allpass filters is still an allpass filter: their magnitude response remains flat, while their phase responses add. Therefore, allpass filters should be combined in cascade.
 
+
+== 2
+Q: Describe with the help of a block diagram how to implement a first-order shelving filter for digital audio equalization. Focus in particular on explaining the role of the all-pass filter in the design. (2025-06-23)
+
+
+A:
+
+A first-order shelving filter is obtained by combining a direct path with a first-order all-pass filter:
+
+#figure(
+  image("media/first-order-shelving-filters.png", width: 80%),
+)
+
+Its transfer function is
+
+$H(z) = 1 + H_0/2 [1 plus.minus A(z)]$
+
+where
+
+$A(z) = (a + z^(-1))/(1 + a z^(-1))$
+
+The plus sign gives a low-frequency shelving filter, while the minus sign gives a high-frequency shelving filter.
+
+The all-pass filter has unit magnitude but a frequency-dependent phase response. Therefore, when its output is added to or subtracted from the direct signal, constructive or destructive interference depends on frequency. This creates the shelving transition without directly changing the magnitude inside the all-pass branch. The coefficient $a$ controls the cutoff frequency, while $H_0$ controls the amount of boost or cut
+
+
+
+== 3
+Q: Describe the equalizer pipeline, indicating which filters are used for its implementation. Explain, with the help of a block diagram, how these filters can be implemented with all-pass filters. (2024-09-04)
+
+
+A:
+
+
+A typical digital audio equalizer is implemented as a cascade of filters:
+
+#figure(
+  image("media/EQ-structure.png", width: 80%),
+)
+
+The low-frequency range is controlled by a low-frequency shelving filter, the mid-frequency range by a series of peaking filters, and the high-frequency range by a high-frequency shelving filter.
+
+The first-order shelving filters can be implemented using a direct path and a first-order all-pass filter:
+
+#figure(
+  image("media/first-order-shelving-filters.png", width: 80%),
+)
+
+$H(z) = 1 + H_0/2 [1 plus.minus A(z)]$
+
+$A(z) = (a + z^(-1))/(1 + a z^(-1))$
+
+The plus sign gives a low-frequency shelving filter and the minus sign gives a high-frequency shelving filter. The coefficient $a$ sets the cutoff frequency, while $H_0$ sets the boost or cut.
+
+The mid-frequency peaking filters can be implemented in the same way using a second-order all-pass filter:
+
+#figure(
+  image("media/second-order-shelving-filters.png", width: 80%),
+)
+
+$H(z) = 1 + H_0/2 [1 - A_2(z)]$
+
+$A_2(z) = (-a + d(1-a)z^(-1) + z^(-2))/(1 + d(1-a)z^(-1) - a z^(-2))$
+
+Here $d$ controls the center frequency, $a$ controls the bandwidth, and $H_0$ controls the gain. Thus, shelving and peaking equalizer sections are obtained by combining a direct signal with appropriately phase-shifted all-pass outputs
+
+== 4
 Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2024-02-09)
 
 
 A:
 
-== 2
+Early reflections convey information about the geometry and materials of the surrounding space and about our position relative to that space.
 
+Late reverberation conveys more global and qualitative properties of the environment, such as room size, overall absorption, and the perceived pleasantness of the reverberation.
+
+The transition from early reflections to late reverberation occurs when the echoes become sufficiently dense that an individual deterministic description is no longer useful and a statistical description becomes appropriate. A practical rule is to take roughly the first $100$ ms as early reflections, but a better criterion is to test when the response becomes statistically diffuse. This can be done by checking Gaussianness of short-time amplitude histograms, fitting an exponential decay to the EDC, or examining the crest factor
+
+== 5
 Q: If we want to build a late reverberation scheme, what kind of elementary IIR blocks do we use and how do we combine them together? How do we control the density of echoes and the density of resonances in the late reverberation using such combinations of blocks? (2024-02-09)
 
 A:
 
-== 3
+For late reverberation, the main elementary IIR blocks are feedback comb filters and all-pass filters.
 
+Comb filters cannot be usefully cascaded, so several comb filters with different delay lengths are connected in parallel. All-pass filters, instead, are cascaded. A typical Schroeder structure is therefore
+
+#raw("x(n) → parallel comb-filter bank → cascaded all-pass filters → y(n)", block: true)
+
+The parallel comb filters generate the resonant modes and the decaying echoes, while the cascaded all-pass filters act as diffusers, increasing echo density without changing the overall magnitude response.
+
+For $N$ parallel comb filters with delay times $tau_i$, the modal density is approximately
+
+$D_m = sum_i tau_i = N overline(tau)$
+
+and the echo density is
+
+$D_e = sum_i 1/tau_i approx N/overline(tau)$
+
+Therefore, the desired densities can be controlled by the number of comb filters and their delay lengths. Increasing $N$ increases both densities, while increasing the average delay increases modal density but decreases echo density. The delay lengths should be mutually prime or incommensurate to spread the resonant frequencies and avoid regular periodicities.
+
+For given desired densities,
+
+$N approx sqrt(D_m D_e)$
+
+The cascaded all-pass sections further increase diffusion by expanding each input echo into many echoes
+
+
+== 6
 Q: Consider sound propagation in a reverberant environment. What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2023-09-05)
 
 
 A:
 
-== 4
 
-Q: What are the main auditory cues that we use in sound perception in a reverberant environment? Please discuss their role in perception of distance and direction. (2023-09-05)
-
-
-A:
-
-== 5
-
-Q: Consider the problem of synthesizing a reverberated audio signal.
-
-- Define the concept of Room Impulse Response (RIR) and highlight its component.
-- Consider a rectangular room with one microphone and one sound source. Considering only first-order reflections, i.e., after one reflection, the signal does not "bounce" on walls anymore, sketch a possible RIR. Hint: ignore the floor and the ceiling. Clearly report the labels on the axes.
-- Explain how it is possible to use a RIR to apply reverberation in the digital domain to a dry sound recording. (2023-07-19)
-
-
-A:
-
-== 6
-
+== 8
 Q: Consider the implementation of audio effects, e.g., chorus, flanger, etc., by means of delay lines.
 
 - Describe the general concept of delay line applied to an audio signal.
@@ -319,8 +961,87 @@ Q: Consider the implementation of audio effects, e.g., chorus, flanger, etc., by
 
 A:
 
-== 7
+a) A delay line shifts an audio signal in time. For a delay of $D$ samples,
 
+$y(n) = x(n-D)$
+
+In delay-based effects, the delayed signal may be used alone or mixed with the direct signal.
+
+b) An integer delay line uses an integer number of samples $D in NN$ and can be implemented directly with memory or $z^(-D)$.
+
+A fractional delay line uses a non-integer delay
+
+$D = floor(D) + d, quad 0 < d < 1$
+
+so the desired output lies between two available samples and must be estimated by interpolation.
+
+A time-varying fractional delay line uses a delay $D(n)$ that changes with time. It is used in effects such as chorus, flanger, and vibrato, allowing the delay to vary smoothly.
+
+c) Integer delay lines do not need an interpolator. Fractional and time-varying fractional delay lines do need one, because the desired output generally lies between discrete-time samples. The interpolator estimates the signal value at these intermediate positions and avoids discontinuities when the delay varies
+
+== 9
+Q: Consider the problem of synthesizing a reverberated audio signal.
+
+- Define the concept of Room Impulse Response (RIR) and highlight its component.
+- Consider a rectangular room with one microphone and one sound source. Considering only first-order reflections, i.e., after one reflection, the signal does not "bounce" on walls anymore, sketch a possible RIR. Hint: ignore the floor and the ceiling. Clearly report the labels on the axes.
+- Explain how it is possible to use a RIR to apply reverberation in the digital domain to a dry sound recording. (2023-07-19)
+
+
+A:
+
+a) The Room Impulse Response (RIR) is the impulse response between a sound source and a receiver in a room. It describes how an acoustic impulse propagates through the environment.
+
+A typical RIR consists of:
+- direct sound
+- early reflections
+- late reverberation
+
+The direct sound arrives first, early reflections are sparse echoes produced by nearby surfaces, and late reverberation is a dense tail produced by multiple reflections.
+
+b) If floor and ceiling are ignored, a rectangular room has four walls. Considering only first-order reflections, the RIR contains the direct sound and four reflected impulses, one from each wall. A possible RIR is
+
+#raw("Amplitude h(t)\n    ↑\n    │       │ direct\n    │       │\n    │       │       │ wall 1\n    │       │       │      │ wall 2\n    │       │       │      │       │ wall 3\n    │       │       │      │       │      │ wall 4\n────┼───────┼───────┼──────┼───────┼──────┼────────→ time t\n            t₀      t₁     t₂      t₃     t₄", block: true)
+
+Equivalently,
+
+$h(t) = a_0 delta(t-t_0) + sum_(k=1)^4 a_k delta(t-t_k)$
+
+where $t_0$ is the direct-path arrival time and $t_1,...,t_4$ are the arrival times of the four first-order wall reflections. Their delays and amplitudes depend on propagation distance and wall reflection losses.
+
+c) Room reverberation is approximately a linear time-invariant process, so a dry recording can be reverberated by convolving it with the RIR
+
+$y(n) = x(n) ast h_"RIR"(n)$
+
+or
+
+$y(n) = sum_k h_"RIR"(k) x(n-k)$
+
+Thus, each impulse in the RIR generates a delayed and scaled copy of the dry signal, reproducing the direct sound, reflections, and reverberation of the room
+
+== 10
+Q: Define the Energy Decay Curve. Define the reverberation time T60 and how it can be measured from the Energy Decay Curve. (2023-06-26)
+
+
+A:
+
+The Energy Decay Curve (EDC) is a smooth and monotonically decreasing function that measures the total energy remaining in the Room Impulse Response after time $t$. It is defined by
+
+$h_"EDC"(t) = integral_t^infinity h^2(tau) d tau$
+
+The reverberation time $T_60$ is the time required for the EDC to decrease by $60$ dB from its initial value.
+
+To measure $T_60$, the EDC is plotted in dB versus time. Since it decays approximately linearly in the dB scale, $T_60$ is the time at which the EDC reaches $-60$ dB relative to its initial level.
+
+In practice, the noise floor may prevent observing the full $60$ dB decay. In this case, a shorter decay range can be measured and extrapolated, for example using a $40$ dB decay multiplied by $1.5$, or a $20$ dB decay multiplied by $3$
+
+== 11
+Q: Describe, with the help of a schematic representation, the main structure of a Leslie rotating speaker, providing details on the physical phenomena that characterize each element. Propose a block diagram to implement this structure with DSP technique. Carefully discuss the role of each block. (2023-06-26)
+
+
+A:
+
+
+== 12
 Q: Describe the Feedback Delay Network scheme for reverberation modeling, with particular reference to:
 
 - In what way does it generalize COMB filters?
@@ -329,84 +1050,79 @@ Q: Describe the Feedback Delay Network scheme for reverberation modeling, with p
 
 A:
 
-== 8
+a) A Feedback Delay Network (FDN) generalizes a feedback COMB filter from a scalar structure to a vector structure. Instead of one delay line and one feedback gain, an FDN uses several delay lines with different lengths and couples their outputs through a feedback matrix $A$.
 
-Q: Describe, with the help of a schematic representation, the main structure of a Leslie rotating speaker, providing details on the physical phenomena that characterize each element. Propose a block diagram to implement this structure with DSP technique. Carefully discuss the role of each block. (2023-06-26)
+#figure(
+  image("media/FDN.png", width: 80%),
+)
 
+Thus, the single feedback coefficient of a COMB filter is replaced by a matrix that mixes the signals among several delay lines. This produces a much denser and more complex set of echoes and resonant modes.
 
-A:
+b) The diffusion or feedback matrix should preferably define a lossless network before decay is introduced. For a real-valued implementation, a common sufficient condition is that $A$ is orthogonal/unitary
 
+$A A^T = I$
 
-== 9
+so that it preserves signal energy. In a lossless FDN, the system poles lie on the unit circle, so the eigenmodes neither grow nor decay.
 
-Q: Define the Energy Decay Curve. Define the reverberation time T60 and how it can be measured from the Energy Decay Curve. (2023-06-26)
+To obtain a desired reverberation decay, the lossless matrix is then combined with attenuation smaller than one, possibly frequency dependent. This allows the decay rate and reverberation time to be controlled without destroying the diffusion properties of the network
 
-
-A:
-
-== 10
-
+== 13
 Q: How does a feedback delay network (FDN) work for modeling and implementing reverberation? In what way does it generalize COMB filters? (2022-09-07)
 
 
 A:
 
-
-== 11
-
+== 14
 Q: Describe in broad terms the design principles behind maximally flat fractional delay filter. (2022-06-24)
 
 
 A:
 
-== 12
-
+== 15
 Q: Assume you are in a large room, and you want to measure its reverberation time. You have access to an audio recording device with which you initially measure the level of background noise, noise floor. Then you record the room impulse response (RIR) corresponding to the impulsive sound produced by popping a balloon. Using the signal you acquire, how do you proceed with computing the reverberation time? Please begin by defining the reverberation time, then describe the steps that you take in order to measure the reverberation time. Assume that the level of impulsive noise produced by the popping of the balloon is 35 dB above the noise floor. How do you proceed in this case? (2022-06-24)
 
 
 A:
 
-== 13
-
+== 16
 Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2022-02-11)
 
 
 A:
 
-== 14
-
+== 17
 Q: Define the reverberation time. Define the T60 and describe how to measure it. Explain how to estimate it when the noise floor is too high to measure it. (2022-01-17)
 
 
 A:
 
-== 15
-
-Q: Describe in broad terms the maximally flat fractional delay filter. What are the conditions that you need to set in order to derive this filter? (2021-08-31)
-
-
-A:
-
-== 16
-
+== 18
 Q: Describe in broad terms the comb filter and the allpass filter as elementary building blocks for building and shaping a late reverberation filter. What role do they play in the design? How do you interconnect such building blocks? (2021-08-31)
 
 
 A:
 
-== 17
+== 19
+Q: Describe in broad terms the maximally flat fractional delay filter. What are the conditions that you need to set in order to derive this filter? (2021-08-31)
 
+
+A:
+
+== 20
+Q: Describe a block diagram for implementing the effect of the "Leslie" (speaker that rotates around an axis that does not pass through its membrane), using simple elements such as modulated delay lines. Start from the physical phenomena that you need to simulate and find the blocks that implement them. Finally, show how to put such blocks together. (2021-02-01)
+
+
+A:
+
+== 21
 Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (unknown)
 
 
 A:
 
-
 = KS & D'Alembert
 
-
 == 1
-
 Q: Digital string model:
 
 a) Describe the model of a digital string based on the Karplus-Strong algorithm (use a scheme and comment on it).
@@ -468,6 +1184,12 @@ Therefore, the pitch variation is
 
 $
 Delta f
+
+
+
+
+
+
 = F_s / M - F_s / (M + 1)
 = F_s / (M(M + 1)).
 $
@@ -501,7 +1223,6 @@ which is too large for fine tuning.
 Therefore, a fractional-delay filter is required to obtain an effective non-integer delay $M + d$ and achieve finer pitch control.
 
 == 2
-
 Q: Consider the d'Alembert Equation, which governs the behavior of an ideal string or an acoustic tube. Derive a Finite Difference (FD) computational scheme for this equation. Specify the general condition that the sampling steps in space and time must satisfy. (2025-07-18)
 
 
@@ -590,7 +1311,21 @@ y[n,k+1] + y[n,k-1] - y[n-1,k].
 $
 
 == 3
+Q: Karplus-Strong algorithm for tuning a string. (2025-01-08)
 
+A:
+
+== 4
+Q: Explain modal synthesis and illustrate it with a block diagram. (2024-07)
+
+A:
+
+== 5
+Q: Demonstrate the trapezoidal rule for discretization, showing how it is used to map from the s-domain to the z-domain. (2024-07)
+
+A:
+
+== 6
 Q: Explain the Karplus-Strong algorithm pointing out its purpose and characteristics. What kind of filter does it use? Help yourself by drawing a block diagram. How is it possible to employ it for physical modeling? Provide an example of application. (2023-09-05)
 
 
@@ -638,9 +1373,7 @@ For physical modeling, the delay line represents wave propagation along a string
 
 A typical application is the synthesis of a plucked guitar string
 
-
-== 4
-
+== 7
 Q: Consider the D'Alembert Equation, Partial Differential Equation, describing an ideal string. Write the general solution of this PDE and explain why it satisfies that PDE. How do you look for stationary waves and derive the so-called Fourier solution of this PDE? (2022-09-07)
 
 
@@ -796,9 +1529,17 @@ $
 
 The coefficients $A_n$ and $B_n$ are determined by the initial displacement and initial velocity of the string
 
+== 8
+Q: Consider the d'Alembert Equation, which governs the behavior of an ideal string or an acoustic tube. Derive a Finite Difference (FD) computational scheme for this equation. Specify the general condition that the sampling steps in space and time must satisfy. (2022-07-15)
 
-== 5
+A:
 
+== 9
+Q: Describe the model of a digital string based on the Karplus-Strong algorithm (use a scheme and comment on it). Why do we need a fractional delay for fine-tuning such a model? Please explain that by showing what happens to the pitch of the tone generated by the KS algorithm, when adding one delay element to the delay line. (2022-07-15)
+
+A:
+
+== 10
 Q: Describe the Karplus-Strong algorithms and the related issues concerning tuning. How do you overcome such issues? (2022-02-11)
 
 
@@ -890,9 +1631,7 @@ $
 
 This allows much finer control of the total loop delay and therefore of the generated pitch
 
-
-== 6
-
+== 11
 Q: Describe the principles behind the cellular modeling method "Cordis-Anima". What are the advantages? Where is it mostly used? What are the issues associated to this approach? (2022-02-11)
 
 
@@ -924,10 +1663,7 @@ Thus, displacements at time $n$ are computed from forces at time $n-1$, and the 
 
 The inserted delay makes the system computable, but it is an artificial numerical delay and does not correspond to a physical propagation delay
 
-
-
-== 7
-
+== 12
 Q: Consider the D'Alembert Equation, Partial Differential Equation, describing an ideal string. Write the general solution of this PDE and explain why it satisfies that PDE. Derive the so-called Fourier solution of this PDE by using the condition of stationary waves. (2021-08-31)
 
 
@@ -1075,9 +1811,7 @@ $
 
 The coefficients $A_n$ and $B_n$ are determined by the initial displacement and initial velocity
 
-
-== 8
-
+== 13
 Q: Digital string model:
 
 a) Describe the model of a digital string based on the Karplus-Strong algorithm, use a scheme and comment on it.
@@ -1197,14 +1931,14 @@ $
 
 This gives a much finer control of the loop delay and therefore of the generated pitch
 
+== 14
+Q: Describe the Karplus-Strong algorithm and the related issues concerning tuning. How do you overcome such issues? (2020-06-17)
 
-
+A:
 
 = DWG & WDF
 
-
-== 7
-
+== 1
 Q: A nonlinear resistor can be handled directly in the wave domain, but a nonlinear capacitor cannot.
 
 - State why the direct approach fails for the capacitor.
@@ -1251,8 +1985,7 @@ $ R C_0 = T_s/2 $
 
 The dual construction for a nonlinear inductor is the through integrator
 
-== 1
-
+== 2
 Q: Consider the Wave Digital connection tree structure of an envelope follower circuit containing a single nonlinear diode D. Identify which ports require adaptation symbols directly on the diagram. Additionally, describe the computational flow executed at each sampling step to simulate the nonlinear circuit in the WD domain. (2025-07-18)
 
 #figure(
@@ -1270,9 +2003,18 @@ At each sampling step:
 - Nonlinear scattering at the root: from the wave incident on the diode, compute the wave reflected by the nonlinear diode
 - Backward scan from the root to the leaves: propagate the reflected wave through the adaptors and compute the waves incident on the linear elements
 
+== 3
+Q: Let us consider two portions of strings of different section which are attached together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such strings in the wave digital domain. By so doing, deducing the travelling waves and writing the continuity conditions of the connection, from there derive the mathematical description of the scattering junction. (2025-06-23)
 
-== 2
+A:
 
+== 4
+Q: A problem on free parameter in WDF. Role of Z in adaptation. (2025-01-08)
+
+
+A:
+
+== 5
 Q: Let us consider two portions of string of different section, which are attached together and modeled using Digital Waveguides. Derive and describe the junction that models the interconnection of such strings in the waveguide domain. Do so by defining the traveling waves and writing the continuity conditions at the connection. From there derive the mathematical description of the scattering junction. (2024-02-09)
 
 
@@ -1322,9 +2064,7 @@ $ mat(f_1^-, f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+, f_2^+) $
 
 The impedance discontinuity therefore produces partial reflection and partial transmission. If $Z_1 = Z_2$, then $rho = 0$ and there is no reflection.
 
-
-== 3
-
+== 6
 Q: Explain the differences between multiport junctions in Digital Waveguides and adaptors in Wave Digital Filters. (2024-02-09)
 
 
@@ -1342,9 +2082,7 @@ The reference resistances in WDFs are free parameters rather than physical chara
 
 Thus, DWG multiport junctions mainly model physical scattering between propagation paths, while WDF adaptors additionally use port adaptation to guarantee computability in lumped networks.
 
-
-== 4
-
+== 7
 Q: Describe Digital Waveguides (DWGs) and their application to physical modeling. How do they differ from Wave Digital Filters? Is it possible to combine both approaches? If yes, how? (2023-09-05)
 
 
@@ -1360,9 +2098,7 @@ Wave Digital Filters are the lumped-parameter counterpart of DWGs. They are used
 
 The two approaches can be combined in a hybrid WDF-DWG model. Distributed parts, such as the two portions of a string, are modeled by DWGs, while lumped or nonlinear interaction elements are modeled in the WDF domain. They are connected through compatible wave-variable ports and scattering structures. A typical example is bow-string interaction, where the string is represented by DWGs and the local nonlinear bow interaction is represented by a WDF element.
 
-
-== 5
-
+== 8
 Q: Consider Wave Digital Filters (WDF).
 
 - Briefly explain how to model a circuit using WDF, when the circuit has a resistive nonlinearity.
@@ -1402,9 +2138,7 @@ which is the nonlinear scattering relation used in the WD domain.
 
 The wave-domain nonlinearity depends on the reference resistance $R$. Therefore the physical Kirchhoff characteristic $F(v,i)=0$ is intrinsic to the nonlinear element, but its WD scattering function $g$ depends on the port resistance chosen by the surrounding WDF network. In a connection tree, this resistance is determined by the adaptation of the rest of the circuit.
 
-
-== 6
-
+== 9
 Q: Derive the description of a capacitor in the Wave Digital domain. Also derive the conditions for adapting the capacitor through an appropriate choice of the parameter defining the digital waves as a function of the Kirchhoff port variables. (2022-09-07)
 
 
@@ -1482,10 +2216,13 @@ Thus, an adapted Wave Digital capacitor is represented by a one-sample delay
 
 $ v^-[n] = v^+[n-1] $
 
+== 10
+Q: Consider the following mechanical model made of a spring of stiffness coefficient K, a mass M, along with a friction with damping coefficient C. The position of the mass is described by the variable x. Derive the electrical equivalent circuit of this system and the corresponding Wave Digital Filter structure. Please make sure you specify the port-adaptation conditions, or the block adaptation conditions that make the whole WDF implementation computable. (2022-07-15)
 
 
-== 7
+A:
 
+== 11
 Q: Let us consider two portions of string of different section, which are attached together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such strings in the Wave Digital domain. Do so by first defining the traveling waves and writing the continuity conditions at the interconnection. From there, derive the mathematical description of the scattering junction, scattering matrix. (2022-06-24)
 
 
@@ -1539,12 +2276,7 @@ $ mat(f_1^-; f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+; f_2^+) $
 
 The impedance discontinuity therefore causes partial reflection and transmission. If $Z_1=Z_2$, then $rho=0$ and there is no reflection
 
-
-
-
-
-== 8
-
+== 12
 Q: Briefly describe the WDF method for modeling lumped-parameter systems. How do you define wave variables? What is the role of the reference resistance? (2022-02-11)
 
 
@@ -1572,11 +2304,7 @@ $ i = (a-b)/(2 Z) $
 
 The reference resistance $Z$ or $R$ is a free parameter associated with each port. In WDFs it is not a physical characteristic impedance. It is chosen to simplify the scattering relations, adapt elements or junction ports, eliminate instantaneous reflections, and therefore remove delay-free algebraic loops so that the resulting signal flow is computable.
 
-
-
-
-== 9
-
+== 13
 Q: Let us consider two acoustic tubes of different section, which are to be joined together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such tubes in the Wave Digital domain. (2022-01-17)
 
 
@@ -1624,10 +2352,7 @@ $ mat(p_1^-; p_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(p_1^+; p_2^+) $
 
 The change of tube section produces partial reflection and transmission. If $S_1=S_2$, then $rho=0$ and there is no reflection
 
-
-
-== 10
-
+== 14
 Q: Explain the differences between multiport junctions in Digital WaveGuides and adaptors in Wave Digital Filters. (2022-01-17)
 
 
@@ -1645,8 +2370,7 @@ The reference resistance in a WDF is a free parameter, not a physical characteri
 
 Therefore, DWG multiport junctions mainly model physical scattering in distributed systems, while WDF adaptors additionally exploit adaptation to make lumped networks computable.
 
-== 11
-
+== 15
 Q: Derive the description of a capacitor in the Wave Digital domain. Also derive the conditions for adapting the WD capacitor through an appropriate choice of the port resistance, the parameter that defines the digital waves as a function of the Kirchhoff port variables. (2021-08-31)
 
 
@@ -1716,8 +2440,7 @@ Thus, the adapted WD capacitor is simply a one-sample delay
 
 $ v^-[n] = v^+[n-1] $
 
-== 12
-
+== 16
 Q: Parallel 3-port junctions in WDF theory:
 
 a) Write the equations governing the Kirchhoff port variables of a parallel 3-port and derive the corresponding equations in the Wave Digital domain, reflected waves as a function of the incident waves.
@@ -1799,8 +2522,24 @@ Thus, in a parallel adaptor, the resistance of the adapted port is the parallel 
 
 Adaptors are needed because WDFs model lumped systems, so junctions may be directly connected without propagation delays. This can create instantaneous algebraic loops and make the signal flow non-computable. A reflection-free port removes the instantaneous reflection and allows junctions to be connected while preserving computability
 
-== 13
+== 17
+Q: Briefly explain how to model a circuit using WDF, when the circuit has a resistive nonlinearity. How do you derive the nonlinearity in the wave digital domain starting from its Kirchhoff description? And how does this wave description of the nonlinearity depend on the rest of the circuit? If you prefer, you can discuss the specific case of a simple RLC circuit (all elements connected in series), with a nonlinear resistor. (2021-06-15)
 
+
+A:
+
+== 18
+Q: Explain the differences between scattering cells in Digital WaveGuides and Wave Digital Filters. (2021-02-01)
+
+
+A:
+
+== 19
+Q: Let us consider two acoustic tubes of different section, which are to be joined together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such tubes in the Wave Digital domain. (2020-06-17)
+
+A:
+
+== 20
 Q: Briefly explain how to model a circuit using WDF, when the circuit has a resistive nonlinearity. How do you derive the nonlinearity in the wave digital domain starting from its Kirchhoff description? And how does this wave description of the nonlinearity depend on the rest of the circuit? If you prefer, you can discuss the specific case of a simple RLC circuit, all elements connected in series, with a nonlinear resistor. (unknown)
 
 
@@ -1845,7 +2584,6 @@ $ R_L = 2L/T_s $
 $ R_C = T_s/(2C) $
 
 The nonlinear scattering function is then obtained by using $R = R_"eq"$ in its wave transformation
-
 
 = Sound Field & Ambisonics & Wave Field Synthesis
 
@@ -1933,6 +2671,11 @@ Q: What is HRIR? How does it differ from BRIR? Briefly explain, using a block di
 
 A:
 
+== 7
+Q: What are the main auditory cues that we use in sound perception in a reverberant environment? Please discuss their role in perception of distance and direction. (2023-09-05)
+
+
+A:
 
 
 
@@ -2041,89 +2784,3 @@ show the system decouples into $dot.double(q)_1 = -omega_0^2 q_1$ and $dot.doubl
 
 
 A:
-
-
-
-
-= questions by topics
-
-== 1 Signal-Based Synthesis
-
-=== 1.2 Sinusoidal Oscillators
-
-- Briefly describe how to implement a generic discrete oscillator in matrix form and describe some of the oscillators you can implement with it. (2025-06-23)
-- Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2022-07-15)
-- Briefly describe how to implement a dynamic oscillator starting from trigonometric formulas. (2020-06-17)
-
-=== 1.3 Additive Synthesis
-
-- Describe the sinusoidal + noise analysis model and explain how the noise envelope is extracted for synthesis. (2024-09-04)
-
-=== 1.4 Oscillators
-
-- DPW for sawtooths and its advantages over the ramp function. (2025-01-08)
-- Describe different methods for generating a sawtooth waveform. (2024-07)
-- Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2020-06-15)
-
-=== 1.5 Non-linear Modelling
-
-- Describe nonlinear modeling of sounds and explain why this approach is useful. Explain the differences between waveshaping and modulations. Define harmonic distortion, write a formula for it and comment it, and explain for which types of nonlinear modeling this definition has a relevant meaning. (2025-06-23)
-- Describe waveshaping methods for nonlinear signal modeling/synthesis. Explain the difference between using a symmetrical or an asymmetrical nonlinear characteristic. (2020-06-17)
-
-=== 1.6 Wavetable Sampling Synthesis
-
-- Describe a sinusoidal wavetable oscillator and explain how to generate a wave with a different frequency if the recorded sound has to be modified. (2024-09-04)
-- Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2022-02-11)
-
-== 2 Digital Audio Effects
-
-=== 2.2 Audio equalization
-
-- Describe with the help of a block diagram how to implement a first-order shelving filter for digital audio equalization. Focus in particular on explaining the role of the all-pass filter in the design. (2025-06-23)
-- Describe the equalizer pipeline, indicating which filters are used for its implementation. Explain, with the help of a block diagram, how these filters can be implemented with all-pass filters. (2024-09-04)
-
-=== 2.4 Delay-based effects
-
-- Describe a block diagram for implementing the effect of the "Leslie" (speaker that rotates around an axis that does not pass through its membrane), using simple elements such as modulated delay lines. Start from the physical phenomena that you need to simulate and find the blocks that implement them. Finally, show how to put such blocks together. (2021-02-01)
-
-== 3 Source-Based Synthesis
-
-=== 3.10 Ideal String FD Scheme
-
-- Consider the d'Alembert Equation, which governs the behavior of an ideal string or an acoustic tube. Derive a Finite Difference (FD) computational scheme for this equation. Specify the general condition that the sampling steps in space and time must satisfy. (2022-07-15)
-
-=== 3.12 Modal Synthesis
-
-- Explain modal synthesis and illustrate it with a block diagram. (2024-07)
-
-=== 3.14 Digital WaveGuide
-
-- Let us consider two portions of strings of different section which are attached together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such strings in the wave digital domain. By so doing, deducing the travelling waves and writing the continuity conditions of the connection, from there derive the mathematical description of the scattering junction. (2025-06-23)
-- Let us consider two acoustic tubes of different section, which are to be joined together and modeled using digital waveguides. Derive and describe the junction that models the interconnection of such tubes in the Wave Digital domain. (2020-06-17)
-
-=== 3.7 Karplus-Strong Algorithm
-
-- Karplus-Strong algorithm for tuning a string. (2025-01-08)
-- Describe the model of a digital string based on the Karplus-Strong algorithm (use a scheme and comment on it). Why do we need a fractional delay for fine-tuning such a model? Please explain that by showing what happens to the pitch of the tone generated by the KS algorithm, when adding one delay element to the delay line. (2022-07-15)
-- Describe the Karplus-Strong algorithm and the related issues concerning tuning. How do you overcome such issues? (2020-06-17)
-
-=== 3.9 Discretization of Lumped Models (background)
-
-- Demonstrate the trapezoidal rule for discretization, showing how it is used to map from the s-domain to the z-domain. (2024-07)
-
-== 4 Wave Digital Systems
-
-=== 4.4 Linking Blocks
-
-- Explain the differences between scattering cells in Digital WaveGuides and Wave Digital Filters. (2021-02-01)
-
-=== 4.5 Modelling Non-linear Elements
-
-- Briefly explain how to model a circuit using WDF, when the circuit has a resistive nonlinearity. How do you derive the nonlinearity in the wave digital domain starting from its Kirchhoff description? And how does this wave description of the nonlinearity depend on the rest of the circuit? If you prefer, you can discuss the specific case of a simple RLC circuit (all elements connected in series), with a nonlinear resistor. (2021-06-15)
-
-== 5 Modelling and Implementation of Wave Digital Filters
-
-=== 5.5 Modelling the Topology
-
-- A problem on free parameter in WDF. Role of Z in adaptation. (2025-01-08)
-- Consider the following mechanical model made of a spring of stiffness coefficient K, a mass M, along with a friction with damping coefficient C. The position of the mass is described by the variable x. Derive the electrical equivalent circuit of this system and the corresponding Wave Digital Filter structure. Please make sure you specify the port-adaptation conditions, or the block adaptation conditions that make the whole WDF implementation computable. (2022-07-15)
