@@ -425,58 +425,7 @@ Q: Describe how to implement an oscillator in the form of a dynamical systems, i
 
 A:
 
-Starting from the trigonometric identities
 
-$
-cos(phi + theta) = cos(phi) cos(theta) - sin(phi) sin(theta)
-$
-
-$
-sin(phi + theta) = cos(phi) sin(theta) + sin(phi) cos(theta)
-$
-
-define the two state variables as
-
-$
-x_1 = cos(phi)
-$
-
-$
-x_2 = sin(phi)
-$
-
-After one iteration, the phase increases by $theta$, so
-
-$
-hat(x)_1 = cos(theta) x_1 - sin(theta) x_2
-$
-
-$
-hat(x)_2 = sin(theta) x_1 + cos(theta) x_2
-$
-
-This gives the dynamical-system representation
-
-$
-mat(hat(x)_1; hat(x)_2)
-=
-mat(cos(theta), -sin(theta); sin(theta), cos(theta))
-mat(x_1; x_2)
-$
-
-The matrix is a rotation matrix. Therefore, once the initial state is given, the oscillator evolves freely by repeatedly rotating the state vector
-
-$
-bold(x)_n = A^n bold(x)_0
-$
-
-The rotation angle per sample is $theta$, which determines the oscillator frequency
-
-$
-f_0 = theta F_s / (2 pi)
-$
-
-Thus, the oscillator is in free evolution: after initialization, no external input is required and the state recursively generates the sinusoidal signal
 
 == 11
 Q: Briefly describe how to implement a generic dynamic oscillator in matrix form and describe an example oscillator that you can implement with it. (2022-01-17)
