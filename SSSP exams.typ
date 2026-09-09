@@ -411,7 +411,7 @@ Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing a
 A:
 
 
-== 9
+== 8
 Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and the conditions that the matrix must satisfy in order to behave like an oscillator. Offer an interpretation of such conditions based on eigenvalue decomposition. (2022-07-15)
 
 
@@ -419,7 +419,7 @@ A:
 
 
 
-== 10
+== 9
 Q: Describe how to implement an oscillator in the form of a dynamical systems, in free evolution, starting from trigonometric formulas. (2022-06-24)
 
 
@@ -427,7 +427,7 @@ A:
 
 
 
-== 11
+== 10
 Q: Briefly describe how to implement a generic dynamic oscillator in matrix form and describe an example oscillator that you can implement with it. (2022-01-17)
 
 
@@ -477,7 +477,7 @@ $
 
 and generates a sinusoidal oscillation whose frequency is determined by $theta$
 
-== 12
+== 11
 Q: Sinusoidal oscillator:
 
 a) Derive the matrix data model of a dynamical system implementing a sinusoidal oscillator starting from trigonometric equations.
@@ -489,19 +489,19 @@ c) Offer an interpretation of such conditions based on eigenvalue decomposition.
 
 A:
 
-== 13
+== 12
 Q: Briefly describe how to implement a dynamic oscillator starting from trigonometric formulas. (2020-06-17)
 
 
 A:
 
-== 14
+== 13
 Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (2020-06-15)
 
 
 A:
 
-== 15
+== 14
 Q: Describe the Differentiated Parabolic Waveform (DPW) algorithm for reducing aliasing in discontinuous waveform generation. (unknown)
 
 
@@ -720,7 +720,7 @@ a) Wavetable synthesis extends the wavetable-oscillator idea to sampled, non-sin
 
 b) SOLA, Synchronous Overlap and Add, joins successive signal segments by overlapping them and adjusting their relative position so that the waveforms match well in the overlap region, then smoothly combining the overlapping parts. In wavetable synthesis, it helps reduce discontinuities and audible artifacts at loop boundaries, producing smoother and nearly seamless joins.
 
-== 8
+== 5
 Q: Give a general description of granular synthesis and its practical use for the production of music. (2023-06-26)
 
 
@@ -731,7 +731,7 @@ Granular synthesis represents a complex sound as a large number of short element
 
 In practice, grains can be extracted from sampled sounds or generated synthetically, shaped by an amplitude envelope, and combined using overlap-add. By controlling grain timing, density and distribution, granular synthesis can create evolving textures, noisy sounds and transformed versions of recorded material. Common organizations include pitch-synchronous streams and asynchronous granular clouds.
 
-== 5
+== 6
 Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2023-06-26)
 
 
@@ -753,13 +753,13 @@ $
 y = (1-alpha)x[i] + alpha x[i+1]
 $
 
-== 6
+== 7
 Q: Briefly describe how to implement a digital oscillator based on wavetable method. Explain pros and cons of such a solution and how to implement interpolation between samples. (2022-02-11)
 
 
 A:
 
-== 7
+== 8
 Q: Describe granular synthesis in general terms. What are grains and what does the granulation process consist of? What types of granulations are commonly used and in what situations? (2021-08-31)
 
 
@@ -900,7 +900,7 @@ Q: Consider sound propagation in a reverberant environment. What information can
 A:
 
 
-== 8
+== 7
 Q: Consider the implementation of audio effects, e.g., chorus, flanger, etc., by means of delay lines.
 
 - Describe the general concept of delay line applied to an audio signal.
@@ -928,7 +928,7 @@ A time-varying fractional delay line uses a delay $D(n)$ that changes with time.
 
 c) Integer delay lines do not need an interpolator. Fractional and time-varying fractional delay lines do need one, because the desired output generally lies between discrete-time samples. The interpolator estimates the signal value at these intermediate positions and avoids discontinuities when the delay varies
 
-== 9
+== 8
 Q: Consider the problem of synthesizing a reverberated audio signal.
 
 - Define the concept of Room Impulse Response (RIR) and highlight its component.
@@ -967,7 +967,7 @@ $y(n) = sum_k h_"RIR"(k) x(n-k)$
 
 Thus, each impulse in the RIR generates a delayed and scaled copy of the dry signal, reproducing the direct sound, reflections, and reverberation of the room
 
-== 10
+== 9
 Q: Define the Energy Decay Curve. Define the reverberation time T60 and how it can be measured from the Energy Decay Curve. (2023-06-26)
 
 
@@ -983,14 +983,14 @@ To measure $T_60$, the EDC is plotted in dB versus time. Since it decays approxi
 
 In practice, the noise floor may prevent observing the full $60$ dB decay. In this case, a shorter decay range can be measured and extrapolated, for example using a $40$ dB decay multiplied by $1.5$, or a $20$ dB decay multiplied by $3$
 
-== 11
+== 10
 Q: Describe, with the help of a schematic representation, the main structure of a Leslie rotating speaker, providing details on the physical phenomena that characterize each element. Propose a block diagram to implement this structure with DSP technique. Carefully discuss the role of each block. (2023-06-26)
 
 
 A:
 
 
-== 12
+== 11
 Q: Describe the Feedback Delay Network scheme for reverberation modeling, with particular reference to:
 
 - In what way does it generalize COMB filters?
@@ -1015,13 +1015,13 @@ so that it preserves signal energy. In a lossless FDN, the system poles lie on t
 
 To obtain a desired reverberation decay, the lossless matrix is then combined with attenuation smaller than one, possibly frequency dependent. This allows the decay rate and reverberation time to be controlled without destroying the diffusion properties of the network
 
-== 13
+== 12
 Q: How does a feedback delay network (FDN) work for modeling and implementing reverberation? In what way does it generalize COMB filters? (2022-09-07)
 
 
 A:
 
-== 14
+== 13
 Q: Describe in broad terms the design principles behind maximally flat fractional delay filter. (2022-06-24)
 
 
@@ -1055,7 +1055,7 @@ $h(n) = product_(k=0, k != n)^N (D-k)/(n-k)$
 
 Thus, the filter is called maximally flat because the approximation error has as many zero derivatives as possible around zero frequency
 
-== 15
+== 14
 Q: Assume you are in a large room, and you want to measure its reverberation time. You have access to an audio recording device with which you initially measure the level of background noise, noise floor. Then you record the room impulse response (RIR) corresponding to the impulsive sound produced by popping a balloon. Using the signal you acquire, how do you proceed with computing the reverberation time? Please begin by defining the reverberation time, then describe the steps that you take in order to measure the reverberation time. Assume that the level of impulsive noise produced by the popping of the balloon is 35 dB above the noise floor. How do you proceed in this case? (2022-06-24)
 
 
@@ -1075,19 +1075,19 @@ $T_60 approx 4 T_15$
 
 Therefore, the procedure is: measure the noise floor, record the RIR, compute the EDC, determine $T_15$ from its decay before reaching the noise floor, and estimate $T_60$ by extrapolation
 
-== 16
+== 15
 Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (2022-02-11)
 
 
 A:
 
-== 17
+== 16
 Q: Define the reverberation time. Define the T60 and describe how to measure it. Explain how to estimate it when the noise floor is too high to measure it. (2022-01-17)
 
 
 A:
 
-== 18
+== 17
 Q: Describe in broad terms the comb filter and the allpass filter as elementary building blocks for building and shaping a late reverberation filter. What role do they play in the design? How do you interconnect such building blocks? (2021-08-31)
 
 
@@ -1108,19 +1108,19 @@ A typical Schroeder late reverberator therefore has the structure
 #raw("x(n) → parallel comb-filter bank → cascaded all-pass diffusers → y(n)", block: true)
 
 
-== 19
+== 18
 Q: Describe in broad terms the maximally flat fractional delay filter. What are the conditions that you need to set in order to derive this filter? (2021-08-31)
 
 
 A:
 
-== 20
+== 19
 Q: Describe a block diagram for implementing the effect of the "Leslie" (speaker that rotates around an axis that does not pass through its membrane), using simple elements such as modulated delay lines. Start from the physical phenomena that you need to simulate and find the blocks that implement them. Finally, show how to put such blocks together. (2021-02-01)
 
 
 A:
 
-== 21
+== 20
 Q: What information can we perceptually gather from early reflections? What about late reverberations? When and how do we decide that the early reflection phase of the room impulse response turns into a late reverberation phase? (unknown)
 
 
@@ -2843,7 +2843,7 @@ The nonlinear scattering function is then obtained by using $R = R_"eq"$ in its 
 
 
 
-== 6
+== 1
 
 Q: Arbitrary-order Ambisonics is often called a 'mode-matching' method. Explain how it differs from amplitude panning, and state the key representation property that makes the encoded signals independent of both the recording and the reproduction setups. (2026-07-23)
 
@@ -2854,7 +2854,7 @@ Unlike amplitude panning, which directly distributes the source signal among lou
 
 The key property is that the sound field is encoded as expansion coefficients of a spatial basis. These coefficients describe the sound field itself, so they are independent of the microphone setup used for recording and of the loudspeaker setup used for reproduction.
 
-== 7
+== 2
 
 
 Q: Discuss the concepts of internal and external sound fields. (2023-09-05)
@@ -2873,7 +2873,7 @@ $ p(r, omega) = sum_(l=0)^infinity sum_(m=-l)^l B_(l m)(omega) h_l^(2) ((omega/c
 Thus, the distinction depends on the location of the sources relative to the source-free observation region, and this determines which radial basis functions are appropriate.
 
 
-== 7
+== 3
 
 Q: Consider Wave Field Synthesis.
 
@@ -2888,7 +2888,7 @@ Wave Field Synthesis aims to reproduce a desired sound field over an extended li
 In practice, the continuous secondary source distribution must be replaced by a finite and discrete loudspeaker array. This introduces spatial aliasing, especially at high frequencies, and truncation artifacts, which limit the region of accurate reproduction and produce diffraction from the ends of open arrays. Further approximations, such as eliminating dipoles and using real point source loudspeakers instead of ideal line sources in 2D systems, can introduce modeling reflections and amplitude errors. The reproduced field can also depend on the listener position, and listeners outside the intended reproduction plane experience additional artifacts.
 
 
-== 6
+== 4
 
 Q: Describe a data-based approach for the capturing of Higher-Order Ambisonics signals in 3D. What geometry for the microphone array is usually employed? What are the limitations of this geometry with respect to the number of microphones, their placement and the frequency range of operation? (2022-09-07)
 
@@ -2911,7 +2911,7 @@ for all required orders and frequencies. Since spherical Bessel functions of ord
 
 
 
-== 6
+== 5
 
 Q: Describe the physical principles on which relies the Wave Field Synthesis method. How would you describe an ideal Wave Field Synthesis system, assuming that there are no limitations in terms of realizability? (2022-01-17)
 
@@ -2924,7 +2924,7 @@ An ideal WFS system would surround the listening volume with a continuous distri
 
 
 
-== 5
+== 6
 
 Q: Describe the basic principles behind the traditional first-order Ambisonics method in 3D, with particular emphasis on the assumption needed to derive the method. What is the peculiarity of the first-order Ambisonics loudspeaker filters? Describe the B format for Ambisonics capturing. (unknown)
 
@@ -2938,7 +2938,7 @@ Its traditional derivation assumes that the loudspeakers are sufficiently far fr
 For capturing, first order Ambisonics commonly uses the B format. It contains four signals: W is the pressure signal obtained from an omnidirectional microphone, while X, Y, and Z are directional figure of eight signals along the x, y, and z axes respectively.
 
 
-== 6
+== 7
 
 Q: Provide a comparison between Wave Field Synthesis and Higher-Order Ambisonics with specific reference to the nature of the approximations and their consequences on the reproduced sound field. In both cases, assume to consider a 2D rendering system characterized by a uniform circular array of loudspeakers. (unknown)
 
@@ -2961,7 +2961,7 @@ Thus, WFS is mainly affected by spatial sampling of a continuous source distribu
 
 
 
-== 6
+== 1
 
 Q: What is HRIR? How does it differ from BRIR? Briefly explain, using a block diagram, how you would implement an HRTF-based binaural rendering system. (2025-07-18)
 
@@ -2989,7 +2989,7 @@ $ y_R(t) = x(t) ast h_R(t, theta, phi) $
 The two resulting signals are reproduced through the left and right headphone channels. If the source or the listener moves, the HRIR/HRTF pair is updated according to the relative source direction.
 
 
-== 7
+== 2
 Q: What are the main auditory cues that we use in sound perception in a reverberant environment? Please discuss their role in perception of distance and direction. (2023-09-05)
 
 
@@ -3008,7 +3008,7 @@ The main auditory cues for sound perception in a reverberant environment are:
 - Reverberation itself also contributes to distance perception: a larger relative amount of reverberant energy generally makes a source appear farther away.
 
 
-== 4
+== 3
 
 Q: Consider the problem of binaural rendering.
 
@@ -3034,7 +3034,7 @@ The two outputs are reproduced through headphones. If the source or listener mov
 c) A virtual environment can be taken into account by adding the direct sound, reflections, and reverberation of the virtual room. Each propagation path can be rendered using the HRTF corresponding to its arrival direction, with the proper delay and attenuation. Alternatively, the complete response can be represented by left and right Binaural Room Impulse Responses (BRIRs), and the source can be convolved with them.
 
 
-== 6
+== 4
 
 Q: Define the Head-Related Transfer Function (HRTF) and explain when and how it is used. (2022-02-11)
 
@@ -3054,7 +3054,7 @@ $ y_R(t) = x(t) ast h_R (t, theta, phi) $
 The two resulting signals are reproduced through the left and right headphone channels. If the source or listener moves, the selected HRTFs must be updated according to the relative direction.
 
 
-== 6
+== 5
 
 Q: Discuss in broad terms the primary auditory cues for spatial audio perception, both in free-field and in reverberant environments. (2021-08-31)
 
@@ -3074,7 +3074,7 @@ In reverberant environments, these cues are still present, but reflections and r
 - The direct-to-reverberant energy ratio is an important distance cue. As source distance increases, the direct sound becomes weaker relative to the reverberant field, so a smaller direct-to-reverberant ratio generally indicates a larger distance.
 - The overall amount and characteristics of reverberation also contribute to distance perception, with a relatively stronger reverberant component generally producing the perception of a more distant source.
 
-== 4
+== 6
 
 Q: Describe the binaural rendering method based on capturing signals with an array of microphones arranged on a rigid surface, motion-tracked binaural. Comment on a possible strategy to include a feedback of head movement and on how to interpolate microphone signals. (unknown)
 
@@ -3092,7 +3092,7 @@ Since the desired ear directions usually do not coincide exactly with microphone
 
 = Stereophony and Panning
 
-== 6
+== 1
 
 Q: Sine law of stereophony. --- The target is a plane wave from direction $theta$, with phase $angle(p)_"target" (x, 0, omega) = omega / c sin theta x$. Equate it to the linearized phase of the loudspeaker pair and derive the sine panning law. Then solve it for the gain ratio $g_L / g_R$. (2026-07-23)
 
@@ -3141,7 +3141,7 @@ $
 
 
 
-== 5
+== 2
 
 Q: Describe the differences between the following three kinds of representation of the sound field used both in the recording phase of a sound scene and in the reproduction phase: channel-based approach, transform-domain approach and object-based approach. (2022-09-07)
 
@@ -3159,7 +3159,7 @@ Thus, channel-based representations are tied to a fixed loudspeaker configuratio
 
 
 
-== 6
+== 3
 
 Q: Describe the principles of two-channel stereophony and derive the sine law of stereophony. Make sure you list the assumptions that you make for this derivation. (2022-06-24)
 
@@ -3245,7 +3245,7 @@ $
 Thus, two loudspeakers at $plus.minus theta_1$ locally approximate, around the sweet spot, a plane wave arriving from direction $theta$
 
 
-== 5
+== 4
 
 Q: Describe Vector-Based Amplitude Panning (VBAP) and the corresponding panning functions. (2021-07-13)
 
@@ -3327,7 +3327,7 @@ $
 
 = Others 
 
-== 8
+== 1
 
 Q: Two equal masses $m$ are coupled as
 
