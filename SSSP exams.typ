@@ -519,11 +519,15 @@ Nonlinear modeling uses nonlinear transformations to modify or generate spectral
 
 Waveshaping is a memoryless nonlinear mapping: the output depends only on the current input sample
 
-$ y(n) = F(x(n)) $
+$
+y(n) = F(x(n))
+$
 
 For example, a polynomial approximation can be written as
 
-$ y(n) = sum_(i=0)^N a_i x^i (n) $
+$
+y(n) = sum_(i=0)^N a_i x^i (n)
+$
 
 A sinusoidal input therefore generates harmonics at integer multiples of its frequency.
 
@@ -531,15 +535,21 @@ Modulation instead uses one signal to modify another signal. Examples are ring m
 
 For a sinusoidal input
 
-$ x(n) = A cos(omega_0 n) $
+$
+x(n) = A cos(omega_0 n)
+$
 
 a nonlinear system may produce
 
-$ y(n) = sum_(k=0)^N A_k cos(k omega_0 n) $
+$
+y(n) = sum_(k=0)^N A_k cos(k omega_0 n)
+$
 
 Harmonic distortion is measured by the total harmonic distortion
 
-$ "THD" = sqrt((sum_(k=2)^N A_k^2)/(sum_(k=1)^N A_k^2)) $
+$
+"THD" = sqrt((sum_(k=2)^N A_k^2)/(sum_(k=1)^N A_k^2))
+$
 
 It measures the relative amount of energy contained in the generated harmonics, excluding the fundamental from the numerator. A larger THD therefore means stronger nonlinear harmonic distortion.
 
@@ -561,15 +571,21 @@ A:
 
 Frequency modulation (FM) synthesis generates complex spectra by modulating the instantaneous phase or frequency of a sinusoidal carrier with another signal. With a sinusoidal modulator
 
-$ phi(n) = I(n) sin(omega_m (n)n) $
+$
+phi(n) = I(n) sin(omega_m (n)n)
+$
 
 the synthesized signal is
 
-$ s(n) = a(n) sin(omega_c (n)n + I(n) sin(omega_m(n)n)) $
+$
+s(n) = a(n) sin(omega_c (n)n + I(n) sin(omega_m(n)n))
+$
 
 The modulation creates sidebands at frequencies
 
-$ abs(omega_c + k omega_m) $
+$
+abs(omega_c + k omega_m)
+$
 
 and their amplitudes are controlled by the modulation index $I$. FM synthesis is versatile, computationally efficient, and can generate rich spectra with relatively few parameters.
 
@@ -593,17 +609,23 @@ A:
 
 Waveshaping is a memoryless nonlinear synthesis method: each output sample depends only on the current input sample through a nonlinear distortion function
 
-$ y(n) = F(x(n)) $
+$
+y(n) = F(x(n))
+$
 
 The nonlinear characteristic can be approximated by a polynomial
 
-$ y(n) = sum_(i=0)^N a_i x^i(n) $
+$
+y(n) = sum_(i=0)^N a_i x^i(n)
+$
 
 When the input is sinusoidal, the nonlinear terms generate new harmonics, so waveshaping can enrich the spectrum and produce effects such as overdrive and distortion.
 
 With a symmetrical characteristic, the nonlinear function is odd and positive and negative input values are processed symmetrically. It mainly generates odd harmonics. It is typically approximately linear for small input amplitudes and saturates as the amplitude increases
 
-$ F(-x) = -F(x) $
+$
+F(-x) = -F(x)
+$
 
 With an asymmetrical characteristic, positive and negative input values are processed or clipped differently. The characteristic is no longer odd, so both even and odd harmonics are generated. This can model nonlinear behavior such as that of triode tubes
 
@@ -621,11 +643,15 @@ A:
 
 a) Waveshaping is a memoryless nonlinear synthesis method in which each output sample is obtained by applying a nonlinear distortion function to the current input sample
 
-$ y(n) = F(x(n)) $
+$
+y(n) = F(x(n))
+$
 
 The nonlinear function can be approximated by a polynomial
 
-$ y(n) = sum_(i=0)^N a_i x^i(n) $
+$
+y(n) = sum_(i=0)^N a_i x^i(n)
+$
 
 If the input is sinusoidal, the nonlinear terms generate new harmonic components, producing a spectrally richer sound.
 
@@ -633,7 +659,9 @@ b) The purpose of the nonlinearity is to generate new spectral components that c
 
 A symmetric characteristic is typically an odd function
 
-$ F(-x) = -F(x) $
+$
+F(-x) = -F(x)
+$
 
 so positive and negative samples are treated symmetrically and mainly odd harmonics are generated.
 
@@ -641,7 +669,9 @@ An asymmetric characteristic treats positive and negative samples differently, s
 
 c) No. Phase and frequency modulation are not waveshaping methods. Waveshaping is a static memoryless mapping from the current input sample to the current output sample. In phase or frequency modulation, one signal controls the phase or frequency of an oscillator and produces sidebands. In FM, the phase is also updated recursively
 
-$ phi(n) = phi(n - 1) + omega_c (n)n + phi_m (n) $
+$
+phi(n) = phi(n - 1) + omega_c (n)n + phi_m (n)
+$
 
 Therefore, modulation is based on changing an oscillator parameter rather than applying a memoryless nonlinear function directly to an input sample
 
@@ -663,7 +693,7 @@ A:
 The sinusoidal + noise model represents a sound as the sum of a deterministic sinusoidal component and a stochastic noise component
 
 $
-s(t) = sum_(r=1)^R A_r(t) cos(theta_r(t)) + e(t)
+s(t) = sum_(r=1)^R A_r (t) cos(theta_r (t)) + e(t)
 $
 
 The sinusoidal part is obtained by STFT peak detection and tracking, while $e(t)$ is the residual and is modeled as time-varying filtered white noise.
@@ -800,11 +830,15 @@ A first-order shelving filter is obtained by combining a direct path with a firs
 
 Its transfer function is
 
-$H(z) = 1 + H_0/2 [1 plus.minus A(z)]$
+$
+H(z) = 1 + H_0/2 [1 plus.minus A(z)]
+$
 
 where
 
-$A(z) = (a + z^(-1))/(1 + a z^(-1))$
+$
+A(z) = (a + z^(-1))/(1 + a z^(-1))
+$
 
 The plus sign gives a low-frequency shelving filter, while the minus sign gives a high-frequency shelving filter.
 
@@ -833,9 +867,13 @@ The first-order shelving filters can be implemented using a direct path and a fi
   image("media/first-order-shelving-filters.png", width: 80%),
 )
 
-$H(z) = 1 + H_0/2 [1 plus.minus A(z)]$
+$
+H(z) = 1 + H_0/2 [1 plus.minus A(z)]
+$
 
-$A(z) = (a + z^(-1))/(1 + a z^(-1))$
+$
+A(z) = (a + z^(-1))/(1 + a z^(-1))
+$
 
 The plus sign gives a low-frequency shelving filter and the minus sign gives a high-frequency shelving filter. The coefficient $a$ sets the cutoff frequency, while $H_0$ sets the boost or cut.
 
@@ -845,9 +883,13 @@ The mid-frequency peaking filters can be implemented in the same way using a sec
   image("media/second-order-shelving-filters.png", width: 80%),
 )
 
-$H(z) = 1 + H_0/2 [1 - A_2(z)]$
+$
+H(z) = 1 + H_0/2 [1 - A_2(z)]
+$
 
-$A_2(z) = (-a + d(1-a)z^(-1) + z^(-2))/(1 + d(1-a)z^(-1) - a z^(-2))$
+$
+A_2(z) = (-a + d(1-a)z^(-1) + z^(-2))/(1 + d(1-a)z^(-1) - a z^(-2))
+$
 
 Here $d$ controls the center frequency, $a$ controls the bandwidth, and $H_0$ controls the gain. Thus, shelving and peaking equalizer sections are obtained by combining a direct signal with appropriately phase-shifted all-pass outputs
 
@@ -878,17 +920,23 @@ The parallel comb filters generate the resonant modes and the decaying echoes, w
 
 For $N$ parallel comb filters with delay times $tau_i$, the modal density is approximately
 
-$D_m = sum_i tau_i = N overline(tau)$
+$
+D_m = sum_i tau_i = N overline(tau)
+$
 
 and the echo density is
 
-$D_e = sum_i 1/tau_i approx N/overline(tau)$
+$
+D_e = sum_i 1/tau_i approx N/overline(tau)
+$
 
 Therefore, the desired densities can be controlled by the number of comb filters and their delay lengths. Increasing $N$ increases both densities, while increasing the average delay increases modal density but decreases echo density. The delay lengths should be mutually prime or incommensurate to spread the resonant frequencies and avoid regular periodicities.
 
 For given desired densities,
 
-$N approx sqrt(D_m D_e)$
+$
+N approx sqrt(D_m D_e)
+$
 
 The cascaded all-pass sections further increase diffusion by expanding each input echo into many echoes
 
@@ -912,7 +960,9 @@ A:
 
 a) A delay line shifts an audio signal in time. For a delay of $D$ samples,
 
-$y(n) = x(n-D)$
+$
+  y(n) = x(n-D)
+$
 
 In delay-based effects, the delayed signal may be used alone or mixed with the direct signal.
 
@@ -920,7 +970,9 @@ b) An integer delay line uses an integer number of samples $D in NN$ and can be 
 
 A fractional delay line uses a non-integer delay
 
-$D = floor(D) + d, quad 0 < d < 1$
+$
+  D = floor(D) + d, quad 0 < d < 1
+$
 
 so the desired output lies between two available samples and must be estimated by interpolation.
 
@@ -953,17 +1005,23 @@ b) If floor and ceiling are ignored, a rectangular room has four walls. Consider
 
 Equivalently,
 
-$h(t) = a_0 delta(t-t_0) + sum_(k=1)^4 a_k delta(t-t_k)$
+$
+h(t) = a_0 delta(t-t_0) + sum_(k=1)^4 a_k delta(t-t_k)
+$
 
 where $t_0$ is the direct-path arrival time and $t_1,...,t_4$ are the arrival times of the four first-order wall reflections. Their delays and amplitudes depend on propagation distance and wall reflection losses.
 
 c) Room reverberation is approximately a linear time-invariant process, so a dry recording can be reverberated by convolving it with the RIR
 
-$y(n) = x(n) ast h_"RIR"(n)$
+$
+y(n) = x(n) ast h_"RIR"(n)
+$
 
 or
 
-$y(n) = sum_k h_"RIR"(k) x(n-k)$
+$
+y(n) = sum_k h_"RIR"(k) x(n-k)
+$
 
 Thus, each impulse in the RIR generates a delayed and scaled copy of the dry signal, reproducing the direct sound, reflections, and reverberation of the room
 
@@ -975,7 +1033,9 @@ A:
 
 The Energy Decay Curve (EDC) is a smooth and monotonically decreasing function that measures the total energy remaining in the Room Impulse Response after time $t$. It is defined by
 
-$h_"EDC"(t) = integral_t^infinity h^2(tau) d tau$
+$
+h_"EDC"(t) = integral_t^infinity h^2(tau) d tau
+$
 
 The reverberation time $T_60$ is the time required for the EDC to decrease by $60$ dB from its initial value.
 
@@ -1009,7 +1069,9 @@ Thus, the single feedback coefficient of a COMB filter is replaced by a matrix t
 
 b) The diffusion or feedback matrix should preferably define a lossless network before decay is introduced. For a real-valued implementation, a common sufficient condition is that $A$ is orthogonal/unitary
 
-$A A^T = I$
+$
+A A^T = I
+$
 
 so that it preserves signal energy. In a lossless FDN, the system poles lie on the unit circle, so the eigenmodes neither grow nor decay.
 
@@ -1029,29 +1091,41 @@ A:
 
 A maximally flat fractional-delay FIR filter is designed so that its frequency response matches the ideal delay
 
-$H_"id" (omega) = e^(-i omega D)$
+$
+H_"id" (omega) = e^(-i omega D)
+$
 
 as closely as possible around $omega_0 = 0$.
 
 The design imposes that the error and its first $N$ derivatives vanish at $omega_0$
 
-$(d^l E(omega))/(d omega^l) |_(omega=0) = 0, quad l = 0, ..., N$
+$
+(d^l E(omega))/(d omega^l) |_(omega=0) = 0, quad l = 0, ..., N
+$
 
 This leads to the conditions
 
-$sum_(n=0)^N n^l h(n) = D^l, quad l = 0, ..., N$
+$
+sum_(n=0)^N n^l h(n) = D^l, quad l = 0, ..., N
+$
 
 which form a set of $N+1$ linear equations. They can be written as a Vandermonde system
 
-$V h = v$
+$
+V h = v
+$
 
 and solved as
 
-$h = V^(-1) v$
+$
+h = V^(-1) v
+$
 
 The resulting coefficients are equivalent to the Lagrange interpolation coefficients
 
-$h(n) = product_(k=0, k != n)^N (D-k)/(n-k)$
+$
+h(n) = product_(k=0, k != n)^N (D-k)/(n-k)
+$
 
 Thus, the filter is called maximally flat because the approximation error has as many zero derivatives as possible around zero frequency
 
@@ -1065,13 +1139,17 @@ The reverberation time $T_60$ is the time required for the room sound energy to 
 
 After measuring the noise floor, an impulsive sound such as a balloon pop is generated and the Room Impulse Response $h(t)$ is recorded. From the measured RIR, the Energy Decay Curve is computed as
 
-$h_"EDC"(t) = integral_t^infinity h^2(tau) d tau$
+$
+h_"EDC"(t) = integral_t^infinity h^2(tau) d tau
+$
 
 The EDC is then expressed in dB. Since it decays approximately linearly in the dB scale, the decay slope can be measured and used to estimate the reverberation time.
 
 If the impulse is only $35$ dB above the noise floor, the full $60$ dB decay cannot be measured because the EDC reaches the noise floor first. In this case, we measure a reliable $15$ dB decay time $T_15$ and extrapolate the decay to $60$ dB
 
-$T_60 approx 4 T_15$
+$
+T_60 approx 4 T_15
+$
 
 Therefore, the procedure is: measure the noise floor, record the RIR, compute the EDC, determine $T_15$ from its decay before reaching the noise floor, and estimate $T_60$ by extrapolation
 
@@ -2072,39 +2150,55 @@ A:
 
 A nonlinear resistor can be handled directly because its constitutive relation is memoryless
 
-$ F(v,i) = 0 $
+$
+F(v,i) = 0
+$
 
 After the Kirchhoff-to-wave transformation, this can be converted directly into an algebraic scattering relation
 
-$ v^- = g(v^+) $
+$
+v^- = g(v^+)
+$
 
 A nonlinear capacitor is different because its constitutive relation is between voltage and charge
 
-$ F(v,q) = 0 $
+$
+F(v,q) = 0
+$
 
 with
 
-$ i = dot(q) $
+$
+i = dot(q)
+$
 
 Therefore it contains memory. A direct Wave Digital transformation would involve both a nonlinear operator and an integration or differentiation operator, and these operators cannot in general be interchanged. Hence the capacitor cannot be reduced directly to a memoryless scattering relation in the usual wave variables
 
 To overcome this, special wave variables are introduced using voltage $v$ and charge $q$
 
-$ u^+ = 1/2 (v + q/C_0) $
+$
+u^+ = 1/2 (v + q/C_0)
+$
 
-$ u^- = 1/2 (v - q/C_0) $
+$
+u^- = 1/2 (v - q/C_0)
+$
 
 where $C_0$ is a reference capacitance
 
 In the $u^+,u^-$ domain, the nonlinear capacitor becomes an algebraic relation between $v$ and $q$, so it can be treated like a memoryless nonlinear resistor and written as a nonlinear reflection law
 
-$ u^- = g(u^+) $
+$
+u^- = g(u^+)
+$
 
 A mutator, also called an across integrator, maps the ordinary WD waves $(v^+,v^-)$ to the special waves $(u^+,u^-)$. It therefore separates the dynamic integration from the nonlinear algebraic characteristic and restores an explicit nonlinear scattering relation
 
 For computability, the mutator parameters are chosen so that its instantaneous reflection vanishes
 
-$ R C_0 = T_s/2 $
+$
+R C_0 = T_s/2
+$
 
 The dual construction for a nonlinear inductor is the through integrator
 
@@ -2133,67 +2227,105 @@ A:
 
 For each uniform string section, the D'Alembert solution is the sum of two travelling waves
 
-$ y_i(x,t) = y_i^r (c_i t-x) + y_i^l (c_i t+x) $
+$
+y_i(x,t) = y_i^r (c_i t-x) + y_i^l (c_i t+x)
+$
 
 Using velocity waves, the corresponding force waves satisfy
 
-$ f_i^+ = Z_i v_i^+ $
+$
+f_i^+ = Z_i v_i^+
+$
 
-$ f_i^- = -Z_i v_i^- $
+$
+f_i^- = -Z_i v_i^-
+$
 
 where the characteristic impedance of the string is
 
-$ Z_i = T/c_i = sqrt(T mu_i) $
+$
+Z_i = T/c_i = sqrt(T mu_i)
+$
 
 Therefore, two string portions with different linear densities have different characteristic impedances, and the discontinuity produces scattering
 
 At the junction, let the incoming and outgoing velocity waves be
 
-$ a_1 = v_1^+ $
+$
+a_1 = v_1^+
+$
 
-$ b_1 = v_1^- $
+$
+b_1 = v_1^-
+$
 
-$ a_2 = v_2^- $
+$
+a_2 = v_2^-
+$
 
-$ b_2 = v_2^+ $
+$
+b_2 = v_2^+
+$
 
 The total velocity must be continuous across the junction
 
-$ v_J = a_1 + b_1 = a_2 + b_2 $
+$
+v_J = a_1 + b_1 = a_2 + b_2
+$
 
 The forces must also balance at the massless junction
 
-$ Z_1(a_1-b_1) + Z_2(a_2-b_2) = 0 $
+$
+Z_1(a_1-b_1) + Z_2(a_2-b_2) = 0
+$
 
 Using the velocity-continuity condition
 
-$ b_1 = v_J-a_1 $
+$
+b_1 = v_J-a_1
+$
 
-$ b_2 = v_J-a_2 $
+$
+b_2 = v_J-a_2
+$
 
 the force condition gives the junction velocity
 
-$ v_J = 2 (Z_1 a_1 + Z_2 a_2)/(Z_1+Z_2) $
+$
+v_J = 2 (Z_1 a_1 + Z_2 a_2)/(Z_1+Z_2)
+$
 
 Hence the outgoing waves are
 
-$ b_1 = (Z_1-Z_2)/(Z_1+Z_2) a_1 + (2 Z_2)/(Z_1+Z_2) a_2 $
+$
+b_1 = (Z_1-Z_2)/(Z_1+Z_2) a_1 + (2 Z_2)/(Z_1+Z_2) a_2
+$
 
-$ b_2 = (2 Z_1)/(Z_1+Z_2) a_1 + (Z_2-Z_1)/(Z_1+Z_2) a_2 $
+$
+b_2 = (2 Z_1)/(Z_1+Z_2) a_1 + (Z_2-Z_1)/(Z_1+Z_2) a_2
+$
 
 Defining the reflection coefficient
 
-$ rho = (Z_1-Z_2)/(Z_1+Z_2) $
+$
+rho = (Z_1-Z_2)/(Z_1+Z_2)
+$
 
 the Kelly-Lochbaum scattering junction can be written as
 
-$ b_1 = rho a_1 + (1-rho) a_2 $
+$
+b_1 = rho a_1 + (1-rho) a_2
+$
 
-$ b_2 = (1+rho) a_1 - rho a_2 $
+$
+b_2 = (1+rho) a_1 - rho a_2
+$
 
 Thus, a change of string impedance causes each incident travelling wave to be partly reflected and partly transmitted. If the two impedances are equal, there is no reflection
 
-$ Z_1=Z_2 => rho=0 $
+$
+Z_1=Z_2 => rho=0
+$
 
 == 4
 Q: A problem on free parameter in WDF. Role of Z in adaptation. (2025-01-08)
@@ -2204,41 +2336,59 @@ A:
 
 In a Wave Digital Filter, the Kirchhoff variables are mapped into wave variables using a reference impedance
 
-$ v^+ = 1/2 (v + Z i) $
+$
+v^+ = 1/2 (v + Z i)
+$
 
-$ v^- = 1/2 (v - Z i) $
+$
+v^- = 1/2 (v - Z i)
+$
 
 Unlike the characteristic impedance in a digital waveguide, the parameter
 
-$ Z $
+$
+Z
+$
 
 in a lumped WDF is a free reference parameter. It represents a change of reference frame for the wave variables and can be chosen to improve computability
 
 For a one-port element with impedance
 
-$ Z_e $
+$
+Z_e
+$
 
 the reflection coefficient is
 
-$ rho = (Z_e-Z)/(Z_e+Z) $
+$
+rho = (Z_e-Z)/(Z_e+Z)
+$
 
 If the reference impedance is chosen as
 
-$ Z=Z_e $
+$
+Z=Z_e
+$
 
 then
 
-$ rho=0 $
+$
+rho=0
+$
 
 and the port is adapted, meaning that it produces no instantaneous reflection
 
 The same principle is used in multiport adaptors. One reference impedance is chosen so that one port becomes reflection-free. For example, for a series adaptor
 
-$ Z_3=Z_1+Z_2 $
+$
+Z_3=Z_1+Z_2
+$
 
 while for a parallel adaptor
 
-$ 1/Z_3=1/Z_1+1/Z_2 $
+$
+1/Z_3=1/Z_1+1/Z_2
+$
 
 Adaptation is therefore used to eliminate instantaneous dependencies and delay-free algebraic loops, making the WDF signal flow computable
 
@@ -2251,45 +2401,71 @@ A:
 
 For each string section, define traveling force waves from the traveling velocity waves. With string tension $T$, linear density $mu_i$, propagation speed $c_i$, characteristic impedance $Z_i$ and admittance $Y_i$
 
-$ c_i = sqrt(T / mu_i) $
+$
+c_i = sqrt(T / mu_i)
+$
 
-$ Z_i = T / c_i = sqrt(T mu_i) $
+$
+Z_i = T / c_i = sqrt(T mu_i)
+$
 
-$ Y_i = 1 / Z_i $
+$
+Y_i = 1 / Z_i
+$
 
 The force and velocity at port $i$ are written in terms of incident and reflected force waves as
 
-$ f_i = f_i^+ + f_i^- $
+$
+f_i = f_i^+ + f_i^-
+$
 
-$ v_i = Y_i (f_i^+ - f_i^-) $
+$
+v_i = Y_i (f_i^+ - f_i^-)
+$
 
 At the massless connection point, force and velocity continuity give
 
-$ f_1 = f_2 = f_J $
+$
+f_1 = f_2 = f_J
+$
 
-$ v_1 + v_2 = 0 $
+$
+v_1 + v_2 = 0
+$
 
 Since
 
-$ f_i^- = f_J - f_i^+ $
+$
+f_i^- = f_J - f_i^+
+$
 
 substitution into the velocity continuity condition gives
 
-$ f_J = 2 (Y_1 f_1^+ + Y_2 f_2^+) / (Y_1 + Y_2) $
+$
+f_J = 2 (Y_1 f_1^+ + Y_2 f_2^+) / (Y_1 + Y_2)
+$
 
 Therefore the outgoing waves are
 
-$ f_1^- = rho f_1^+ + (1 - rho) f_2^+ $
+$
+f_1^- = rho f_1^+ + (1 - rho) f_2^+
+$
 
-$ f_2^- = (1 + rho) f_1^+ - rho f_2^+ $
+$
+f_2^- = (1 + rho) f_1^+ - rho f_2^+
+$
 
 where
 
-$ rho = (Y_1 - Y_2) / (Y_1 + Y_2) = (Z_2 - Z_1) / (Z_1 + Z_2) $
+$
+rho = (Y_1 - Y_2) / (Y_1 + Y_2) = (Z_2 - Z_1) / (Z_1 + Z_2)
+$
 
 Hence the junction is the two-port Kelly-Lochbaum scattering junction
 
-$ mat(f_1^-, f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+, f_2^+) $
+$
+mat(f_1^-, f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+, f_2^+)
+$
 
 The impedance discontinuity therefore produces partial reflection and partial transmission. If $Z_1 = Z_2$, then $rho = 0$ and there is no reflection.
 
@@ -2305,7 +2481,9 @@ In Wave Digital Filters, the model is lumped and there is no spatial propagation
 
 A WDF adaptor is therefore a special junction in which one port is made reflection-free by choosing its reference resistance appropriately
 
-$ s_(n n) = 0 $
+$
+s_(n n) = 0
+$
 
 The reference resistances in WDFs are free parameters rather than physical characteristic impedances. They are chosen to adapt ports, eliminate instantaneous reflections, and make the network computable.
 
@@ -2319,7 +2497,9 @@ A:
 
 Digital Waveguides are used for distributed-parameter physical systems described by PDEs, such as strings and acoustic tubes. Instead of discretizing the PDE directly, a DWG discretizes its general traveling-wave solution. For the 1-D wave equation
 
-$ y(x,t) = y^+(c t-x) + y^-(c t+x) $
+$
+y(x,t) = y^+(c t-x) + y^-(c t+x)
+$
 
 the two traveling waves are implemented by delay lines. Impedance discontinuities are modeled by scattering junctions, and multiport junctions enforce continuity conditions between connected propagation paths.
 
@@ -2345,47 +2525,69 @@ The available reference impedances are chosen to adapt the ports and remove dela
 
 b) Suppose the nonlinear resistor is described in the Kirchhoff domain by
 
-$ F(v,i)=0 $
+$
+F(v,i)=0
+$
 
 Using the wave definitions
 
-$ v^+ = 1/2 (v+R i) $
+$
+v^+ = 1/2 (v+R i)
+$
 
-$ v^- = 1/2 (v-R i) $
+$
+v^- = 1/2 (v-R i)
+$
 
 we obtain
 
-$ v=v^+ + v^- $
+$
+v=v^+ + v^-
+$
 
-$ i=(v^+-v^-)/R $
+$
+i=(v^+-v^-)/R
+$
 
 Substituting these expressions into the nonlinear characteristic gives
 
-$ F(v^+ + v^-,(v^+-v^-)/R)=0 $
+$
+F(v^+ + v^-,(v^+-v^-)/R)=0
+$
 
 or equivalently
 
-$ f(v^+,v^-)=0 $
+$
+f(v^+,v^-)=0
+$
 
 If this relation can be made explicit with respect to the reflected wave, the nonlinear element is represented in the wave domain as
 
-$ v^- = g(v^+) $
+$
+v^- = g(v^+)
+$
 
 This is a memoryless nonlinear scattering relation
 
 c) The wave-domain description of the nonlinearity depends on the reference impedance
 
-$ R $
+$
+R
+$
 
 because the Kirchhoff-to-wave transformation itself depends on this parameter
 
 Therefore, even if the physical nonlinear characteristic
 
-$ F(v,i)=0 $
+$
+F(v,i)=0
+$
 
 is fixed, the corresponding wave-domain function
 
-$ v^-=g(v^+) $
+$
+v^-=g(v^+)
+$
 
 changes when the reference impedance changes
 
@@ -2399,75 +2601,113 @@ A:
 
 For a capacitor
 
-$ i(t) = C dif(v(t), t) $
+$
+i(t) = C dif(v(t), t)
+$
 
 or, in the Laplace domain
 
-$ V(s) = Z(s) I(s) $
+$
+V(s) = Z(s) I(s)
+$
 
 with
 
-$ Z(s) = 1/(s C) $
+$
+Z(s) = 1/(s C)
+$
 
 Define the wave variables from the Kirchhoff port variables as
 
-$ v^+ = 1/2 (v + R i) $
+$
+v^+ = 1/2 (v + R i)
+$
 
-$ v^- = 1/2 (v - R i) $
+$
+v^- = 1/2 (v - R i)
+$
 
 Hence
 
-$ v = v^+ + v^- $
+$
+v = v^+ + v^-
+$
 
-$ i = (v^+ - v^-)/R $
+$
+i = (v^+ - v^-)/R
+$
 
 Using
 
-$ V(s) = Z(s) I(s) $
+$
+V(s) = Z(s) I(s)
+$
 
 the wave-domain relation becomes
 
-$ V^-(s) = K(s) V^+(s) $
+$
+V^-(s) = K(s) V^+(s)
+$
 
 with
 
-$ K(s) = (Z(s)-R)/(Z(s)+R) $
+$
+K(s) = (Z(s)-R)/(Z(s)+R)
+$
 
 For the capacitor
 
-$ K(s) = (1/(s C)-R)/(1/(s C)+R) $
+$
+K(s) = (1/(s C)-R)/(1/(s C)+R)
+$
 
 Using the bilinear transform
 
-$ s = 2/T_s (1-z^(-1))/(1+z^(-1)) $
+$
+s = 2/T_s (1-z^(-1))/(1+z^(-1))
+$
 
 we obtain
 
-$ K_d (z) = (p + z^(-1))/(1 + p z^(-1)) $
+$
+K_d (z) = (p + z^(-1))/(1 + p z^(-1))
+$
 
 where
 
-$ p = (T_s - 2 R C)/(T_s + 2 R C) $
+$
+p = (T_s - 2 R C)/(T_s + 2 R C)
+$
 
 In general, this filter has an instantaneous input-output dependency because of the coefficient $p$. To adapt the capacitor, this instantaneous reflection must be removed, so we impose
 
-$ p = 0 $
+$
+p = 0
+$
 
 Therefore
 
-$ 2 R C = T_s $
+$
+2 R C = T_s
+$
 
 and the required reference resistance is
 
-$ R = T_s/(2 C) $
+$
+R = T_s/(2 C)
+$
 
 With this choice
 
-$ K_d(z) = z^(-1) $
+$
+K_d(z) = z^(-1)
+$
 
 Thus, an adapted Wave Digital capacitor is represented by a one-sample delay
 
-$ v^-[n] = v^+[n-1] $
+$
+v^-[n] = v^+[n-1]
+$
 
 == 10
 Q: Consider the following mechanical model made of a spring of stiffness coefficient K, a mass M, along with a friction with damping coefficient C. The position of the mass is described by the variable x. Derive the electrical equivalent circuit of this system and the corresponding Wave Digital Filter structure. Please make sure you specify the port-adaptation conditions, or the block adaptation conditions that make the whole WDF implementation computable. (2022-07-15)
@@ -2483,49 +2723,75 @@ A:
 
 For each string section $i=1,2$, let $mu_i$ be the linear density and $T$ the string tension. The wave velocity and characteristic impedance are
 
-$ c_i = sqrt(T/mu_i) $
+$
+c_i = sqrt(T/mu_i)
+$
 
-$ Z_i = T/c_i = sqrt(T mu_i) $
+$
+Z_i = T/c_i = sqrt(T mu_i)
+$
 
 Using force and velocity as Kirchhoff variables, define the traveling waves by
 
-$ f_i = f_i^+ + f_i^- $
+$
+f_i = f_i^+ + f_i^-
+$
 
-$ v_i = 1/Z_i (f_i^+ - f_i^-) $
+$
+v_i = 1/Z_i (f_i^+ - f_i^-)
+$
 
 where $f_i^+$ is incident on the junction and $f_i^-$ is outgoing from the junction.
 
 At the massless connection point, force and velocity continuity must hold. With port velocities oriented toward the junction
 
-$ f_1 = f_2 = f_J $
+$
+f_1 = f_2 = f_J
+$
 
-$ v_1 + v_2 = 0 $
+$
+v_1 + v_2 = 0
+$
 
 Since
 
-$ f_i^- = f_J - f_i^+ $
+$
+f_i^- = f_J - f_i^+
+$
 
 substitution into the velocity condition gives
 
-$ f_J = 2 (Y_1 f_1^+ + Y_2 f_2^+)/(Y_1+Y_2) $
+$
+f_J = 2 (Y_1 f_1^+ + Y_2 f_2^+)/(Y_1+Y_2)
+$
 
 where
 
-$ Y_i = 1/Z_i $
+$
+Y_i = 1/Z_i
+$
 
 Therefore
 
-$ f_1^- = rho f_1^+ + (1-rho) f_2^+ $
+$
+f_1^- = rho f_1^+ + (1-rho) f_2^+
+$
 
-$ f_2^- = (1+rho) f_1^+ - rho f_2^+ $
+$
+f_2^- = (1+rho) f_1^+ - rho f_2^+
+$
 
 with reflection coefficient
 
-$ rho = (Y_1-Y_2)/(Y_1+Y_2) = (Z_2-Z_1)/(Z_1+Z_2) $
+$
+rho = (Y_1-Y_2)/(Y_1+Y_2) = (Z_2-Z_1)/(Z_1+Z_2)
+$
 
 Hence the Kelly-Lochbaum scattering junction is described by
 
-$ mat(f_1^-; f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+; f_2^+) $
+$
+mat(f_1^-; f_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(f_1^+; f_2^+)
+$
 
 The impedance discontinuity therefore causes partial reflection and transmission. If $Z_1=Z_2$, then $rho=0$ and there is no reflection
 
@@ -2539,21 +2805,33 @@ The WDF method models a lumped-parameter physical system starting from an equiva
 
 For a port described by Kirchhoff variables $v$ and $i$, the wave variables are defined as
 
-$ a = v + Z i $
+$
+a = v + Z i
+$
 
-$ b = v - Z i $
+$
+b = v - Z i
+$
 
 or, equivalently with the normalization used in some slides
 
-$ v^+ = 1/2 (v + R i) $
+$
+v^+ = 1/2 (v + R i)
+$
 
-$ v^- = 1/2 (v - R i) $
+$
+v^- = 1/2 (v - R i)
+$
 
 The inverse transformation is
 
-$ v = (a+b)/2 $
+$
+v = (a+b)/2
+$
 
-$ i = (a-b)/(2 Z) $
+$
+i = (a-b)/(2 Z)
+$
 
 The reference resistance $Z$ or $R$ is a free parameter associated with each port. In WDFs it is not a physical characteristic impedance. It is chosen to simplify the scattering relations, adapt elements or junction ports, eliminate instantaneous reflections, and therefore remove delay-free algebraic loops so that the resulting signal flow is computable.
 
@@ -2565,43 +2843,67 @@ A:
 
 For a lossless cylindrical acoustic tube of cross-section $S_i$, the traveling variables are acoustic pressure and volume velocity. The characteristic impedance and admittance are
 
-$ Z_i = rho_"air" c / S_i $
+$
+Z_i = rho_"air" c / S_i
+$
 
-$ Y_i = 1/Z_i = S_i/(rho_"air" c) $
+$
+Y_i = 1/Z_i = S_i/(rho_"air" c)
+$
 
 Define incident and reflected pressure waves at each side of the junction as
 
-$ p_i = p_i^+ + p_i^- $
+$
+p_i = p_i^+ + p_i^-
+$
 
-$ u_i = Y_i (p_i^+ - p_i^-) $
+$
+u_i = Y_i (p_i^+ - p_i^-)
+$
 
 At the massless junction, pressure and volume flow must be continuous. Taking both port flows as directed toward the junction gives
 
-$ p_1 = p_2 = p_J $
+$
+p_1 = p_2 = p_J
+$
 
-$ u_1 + u_2 = 0 $
+$
+u_1 + u_2 = 0
+$
 
 Since
 
-$ p_i^- = p_J - p_i^+ $
+$
+p_i^- = p_J - p_i^+
+$
 
 substitution into the flow continuity condition gives
 
-$ p_J = 2 (Y_1 p_1^+ + Y_2 p_2^+) / (Y_1 + Y_2) $
+$
+p_J = 2 (Y_1 p_1^+ + Y_2 p_2^+) / (Y_1 + Y_2)
+$
 
 Therefore the outgoing waves are
 
-$ p_1^- = rho p_1^+ + (1-rho) p_2^+ $
+$
+p_1^- = rho p_1^+ + (1-rho) p_2^+
+$
 
-$ p_2^- = (1+rho) p_1^+ - rho p_2^+ $
+$
+p_2^- = (1+rho) p_1^+ - rho p_2^+
+$
 
 where the reflection coefficient is
 
-$ rho = (Y_1-Y_2)/(Y_1+Y_2) = (S_1-S_2)/(S_1+S_2) $
+$
+rho = (Y_1-Y_2)/(Y_1+Y_2) = (S_1-S_2)/(S_1+S_2)
+$
 
 Hence the Kelly-Lochbaum scattering junction is
 
-$ mat(p_1^-; p_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(p_1^+; p_2^+) $
+$
+mat(p_1^-; p_2^-) = mat(rho, 1-rho; 1+rho, -rho) mat(p_1^+; p_2^+)
+$
 
 The change of tube section produces partial reflection and transmission. If $S_1=S_2$, then $rho=0$ and there is no reflection
 
@@ -2617,7 +2919,9 @@ In Wave Digital Filters, the system is lumped and there is no spatial propagatio
 
 A WDF adaptor is a special junction with one reflection-free port. The reference resistance of that port is chosen so that
 
-$ s_(n n) = 0 $
+$
+s_(n n) = 0
+$
 
 The reference resistance in a WDF is a free parameter, not a physical characteristic impedance. It is used to eliminate instantaneous reflections and guarantee computability.
 
@@ -2631,67 +2935,101 @@ A:
 
 For a capacitor
 
-$ i(t) = C dif(v(t), t) $
+$
+i(t) = C dif(v(t), t)
+$
 
 or equivalently in the Laplace domain
 
-$ V(s) = Z(s) I(s) $
+$
+V(s) = Z(s) I(s)
+$
 
 with
 
-$ Z(s) = 1/(s C) $
+$
+Z(s) = 1/(s C)
+$
 
 Define the wave variables from the Kirchhoff port variables as
 
-$ v^+ = 1/2 (v + R i) $
+$
+v^+ = 1/2 (v + R i)
+$
 
-$ v^- = 1/2 (v - R i) $
+$
+v^- = 1/2 (v - R i)
+$
 
 Hence
 
-$ v = v^+ + v^- $
+$
+v = v^+ + v^-
+$
 
-$ i = (v^+ - v^-)/R $
+$
+i = (v^+ - v^-)/R
+$
 
 Using the impedance relation, the capacitor in the wave domain is described by
 
-$ V^-(s) = K(s) V^+(s) $
+$
+V^-(s) = K(s) V^+(s)
+$
 
 with
 
-$ K(s) = (Z(s)-R)/(Z(s)+R) $
+$
+K(s) = (Z(s)-R)/(Z(s)+R)
+$
 
 For the capacitor
 
-$ K(s) = (1/(s C)-R)/(1/(s C)+R) $
+$
+K(s) = (1/(s C)-R)/(1/(s C)+R)
+$
 
 Using the bilinear transform
 
-$ s = 2/T_s (1-z^(-1))/(1+z^(-1)) $
+$
+s = 2/T_s (1-z^(-1))/(1+z^(-1))
+$
 
 we obtain
 
-$ K_d(z) = (p + z^(-1))/(1 + p z^(-1)) $
+$
+K_d(z) = (p + z^(-1))/(1 + p z^(-1))
+$
 
 where
 
-$ p = (T_s - 2 R C)/(T_s + 2 R C) $
+$
+p = (T_s - 2 R C)/(T_s + 2 R C)
+$
 
 To adapt the WD capacitor, its instantaneous reflection must be eliminated, so we impose
 
-$ p = 0 $
+$
+p = 0
+$
 
 Therefore
 
-$ R = T_s/(2 C) $
+$
+R = T_s/(2 C)
+$
 
 and the reflection filter becomes
 
-$ K_d(z) = z^(-1) $
+$
+K_d(z) = z^(-1)
+$
 
 Thus, the adapted WD capacitor is simply a one-sample delay
 
-$ v^-[n] = v^+[n-1] $
+$
+v^-[n] = v^+[n-1]
+$
 
 == 16
 Q: Parallel 3-port junctions in WDF theory:
@@ -2707,41 +3045,65 @@ a)
 
 For a parallel 3-port junction, the Kirchhoff continuity conditions are
 
-$ i_1 + i_2 + i_3 = 0 $
+$
+i_1 + i_2 + i_3 = 0
+$
 
-$ v_1 = v_2 = v_3 $
+$
+v_1 = v_2 = v_3
+$
 
 Define the wave variables at each port as
 
-$ v_i^+ = 1/2 (v_i + R_i i_i) $
+$
+v_i^+ = 1/2 (v_i + R_i i_i)
+$
 
-$ v_i^- = 1/2 (v_i - R_i i_i) $
+$
+v_i^- = 1/2 (v_i - R_i i_i)
+$
 
 or equivalently
 
-$ v_i = v_i^+ + v_i^- $
+$
+v_i = v_i^+ + v_i^-
+$
 
-$ i_i = G_i (v_i^+ - v_i^-) $
+$
+i_i = G_i (v_i^+ - v_i^-)
+$
 
 with
 
-$ G_i = 1/R_i $
+$
+G_i = 1/R_i
+$
 
 Using the continuity conditions, the reflected waves can be written as
 
-$ v_1^- = (alpha_1-1)v_1^+ + alpha_2 v_2^+ + alpha_3 v_3^+ $
+$
+v_1^- = (alpha_1-1)v_1^+ + alpha_2 v_2^+ + alpha_3 v_3^+
+$
 
-$ v_2^- = alpha_1 v_1^+ + (alpha_2-1)v_2^+ + alpha_3 v_3^+ $
+$
+v_2^- = alpha_1 v_1^+ + (alpha_2-1)v_2^+ + alpha_3 v_3^+
+$
 
-$ v_3^- = alpha_1 v_1^+ + alpha_2 v_2^+ + (alpha_3-1)v_3^+ $
+$
+v_3^- = alpha_1 v_1^+ + alpha_2 v_2^+ + (alpha_3-1)v_3^+
+$
 
 where
 
-$ alpha_i = (2 G_i)/(G_1+G_2+G_3) $
+$
+alpha_i = (2 G_i)/(G_1+G_2+G_3)
+$
 
 and
 
-$ alpha_1 + alpha_2 + alpha_3 = 2 $
+$
+alpha_1 + alpha_2 + alpha_3 = 2
+$
 
 Therefore the scattering relation is
 
@@ -2757,19 +3119,27 @@ b)
 
 To turn the junction into an adaptor, one port must be made reflection-free. If port 3 is adapted, its local reflection coefficient must vanish
 
-$ alpha_3 - 1 = 0 $
+$
+alpha_3 - 1 = 0
+$
 
 so that
 
-$ alpha_3 = 1 $
+$
+alpha_3 = 1
+$
 
 This gives
 
-$ G_3 = G_1 + G_2 $
+$
+G_3 = G_1 + G_2
+$
 
 or equivalently
 
-$ R_3 = 1/(1/R_1 + 1/R_2) $
+$
+R_3 = 1/(1/R_1 + 1/R_2)
+$
 
 Thus, in a parallel adaptor, the resistance of the adapted port is the parallel combination of the other two port resistances.
 
@@ -2802,39 +3172,59 @@ A circuit with one resistive nonlinearity is modeled as a Wave Digital connectio
 
 Starting from the Kirchhoff characteristic of the nonlinear resistor
 
-$ F(v,i) = 0 $
+$
+F(v,i) = 0
+$
 
 define the wave variables
 
-$ v^+ = 1/2 (v + R i) $
+$
+v^+ = 1/2 (v + R i)
+$
 
-$ v^- = 1/2 (v - R i) $
+$
+v^- = 1/2 (v - R i)
+$
 
 with inverse mapping
 
-$ v = v^+ + v^- $
+$
+v = v^+ + v^-
+$
 
-$ i = (v^+ - v^-)/R $
+$
+i = (v^+ - v^-)/R
+$
 
 Substituting these expressions into the nonlinear Kirchhoff relation gives
 
-$ F(v^+ + v^-, (v^+ - v^-)/R) = 0 $
+$
+F(v^+ + v^-, (v^+ - v^-)/R) = 0
+$
 
 If this equation can be made explicit with respect to the reflected wave, the nonlinear element is represented in the WD domain as
 
-$ v^- = g(v^+) $
+$
+v^- = g(v^+)
+$
 
 The physical nonlinear characteristic $F(v,i)=0$ belongs only to the nonlinear element, but the WD function $g$ also depends on the reference resistance $R$. This resistance is determined by the adaptation of the surrounding WDF network, so the wave-domain description of the nonlinearity depends on the rest of the circuit.
 
 For a series RLC circuit with a nonlinear resistor, the linear $R$, $L$, and $C$ elements are adapted and combined through series adaptors. The adapted port facing the nonlinear resistor has an equivalent reference resistance determined by the series connection
 
-$ R_"eq" = R_R + R_L + R_C $
+$
+R_"eq" = R_R + R_L + R_C
+$
 
 with
 
-$ R_L = 2L/T_s $
+$
+R_L = 2L/T_s
+$
 
-$ R_C = T_s/(2C) $
+$
+R_C = T_s/(2C)
+$
 
 The nonlinear scattering function is then obtained by using $R = R_"eq"$ in its wave transformation
 
@@ -2864,11 +3254,15 @@ A:
 
 An internal sound field is a field observed in a source-free region around the origin, with the sound sources located outside that region. It is typically represented using spherical Bessel functions of the first kind, since they remain finite at the origin
 
-$ p(r, omega) = sum_(l=0)^infinity sum_(m=-l)^l C_(l m)(omega) j_l ((omega/c) r) Y_l^m (theta, phi) $
+$
+p(r, omega) = sum_(l=0)^infinity sum_(m=-l)^l C_(l m)(omega) j_l ((omega/c) r) Y_l^m (theta, phi)
+$
 
 An external sound field is a field generated by sources located near the origin and observed in a source-free region outside them. It is typically represented using spherical Hankel functions, which describe outgoing spherical waves
 
-$ p(r, omega) = sum_(l=0)^infinity sum_(m=-l)^l B_(l m)(omega) h_l^(2) ((omega/c) r) Y_l^m (theta, phi) $
+$
+p(r, omega) = sum_(l=0)^infinity sum_(m=-l)^l B_(l m)(omega) h_l^(2) ((omega/c) r) Y_l^m (theta, phi)
+$
 
 Thus, the distinction depends on the location of the sources relative to the source-free observation region, and this determines which radial basis functions are appropriate.
 
@@ -2897,15 +3291,21 @@ A:
 
 In a data-based 3D HOA approach, the sound field is captured with an array of omnidirectional pressure microphones and represented by spherical-harmonic coefficients. The continuous spherical-harmonic analysis integral is approximated by a weighted finite sum of the microphone signals
 
-$ hat(alpha)_(n m)(omega) = 1 / j_n((omega/c)R) sum_(q=1)^(Q_e) p(R, theta_q, phi_q, omega) Y_n^(-m)(theta_q, phi_q) w_q $
+$
+hat(alpha)_(n m)(omega) = 1 / j_n((omega/c)R) sum_(q=1)^(Q_e) p(R, theta_q, phi_q, omega) Y_n^(-m)(theta_q, phi_q) w_q
+$
 
 A spherical microphone array is usually employed because it provides similar properties for all directions of sound incidence. For a sound field bandlimited to order $N$, at least $(N+1)^2$ microphones are required in principle. With equiangular placement, microphones become more densely packed near the poles and more microphones are required
 
-$ Q_e >= (2N-1)^2 $
+$
+Q_e >= (2N-1)^2
+$
 
 The operating frequency range is limited by the spherical Bessel functions in the analysis formula. The array radius $R$ should therefore be chosen so that
 
-$ j_n((omega/c)R) != 0 $
+$
+j_n((omega/c)R) != 0
+$
 
 for all required orders and frequencies. Since spherical Bessel functions of order $n>0$ have a bandpass character, the usable frequency range is limited. In practice, microphones are often mounted on a rigid sphere, whose scattering and diffraction can enlarge the operating frequency range.
 
@@ -2949,7 +3349,9 @@ In Wave Field Synthesis, the ideal continuous distribution of secondary sources 
 
 In Higher Order Ambisonics, the main approximation is instead a truncation of the cylindrical harmonic expansion to a finite order $M$. The reproduced field therefore matches only a finite number of spatial modes. For a uniform circular array, at least $2M+1$ loudspeakers are required
 
-$ Q >= 2M+1 $
+$
+Q >= 2M+1
+$
 
 With sufficient spatial sampling, no errors are introduced in the retained modes $m=-M,...,M$. The approximation error mainly appears in the higher spatial modes, so the reproduction is accurate only within a limited listening region. Increasing the order and the number of loudspeakers enlarges this region and extends the usable frequency range.
 
@@ -2970,21 +3372,31 @@ A:
 
 HRIR (Head-Related Impulse Response) is the time-domain impulse response from a sound source at a given direction to one ear. It describes the filtering caused mainly by the listener's head, torso, and pinnae. Its Fourier transform is the HRTF
 
-$ H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)} $
+$
+H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)}
+$
 
 BRIR (Binaural Room Impulse Response) also includes the acoustic response of the room, such as reflections and reverberation. Therefore, a BRIR is generally much longer and depends not only on the source direction but also on the source and listener positions and on the room.
 
 An HRTF-based binaural renderer filters the source signal with the direction-dependent left- and right-ear HRIRs:
 
-$ x(t) -> h_L (t, theta, phi) -> y_L(t) $
+$
+x(t) -> h_L (t, theta, phi) -> y_L(t)
+$
 
-$ x(t) -> h_R (t, theta, phi) -> y_R(t) $
+$
+x(t) -> h_R (t, theta, phi) -> y_R(t)
+$
 
 with
 
-$ y_L(t) = x(t) ast h_L(t, theta, phi) $
+$
+y_L(t) = x(t) ast h_L(t, theta, phi)
+$
 
-$ y_R(t) = x(t) ast h_R(t, theta, phi) $
+$
+y_R(t) = x(t) ast h_R(t, theta, phi)
+$
 
 The two resulting signals are reproduced through the left and right headphone channels. If the source or the listener moves, the HRIR/HRTF pair is updated according to the relative source direction.
 
@@ -3021,13 +3433,19 @@ A:
 
 a) The Head-Related Transfer Function (HRTF) is the direction-dependent acoustic transfer function from a sound source to the listener's left or right ear. It includes the filtering effects of the head, torso, and pinnae, and contains localization cues such as ITD, ILD, and spectral modifications. Its time-domain counterpart is the HRIR
 
-$ H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)} $
+$
+H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)}
+$
 
 b) For binaural rendering, the source signal is filtered with the left- and right-ear HRTFs corresponding to the desired source direction. In the time domain, this is implemented by convolution with the corresponding HRIRs
 
-$ y_L(t) = x(t) ast h_L (t, theta, phi) $
+$
+y_L(t) = x(t) ast h_L (t, theta, phi)
+$
 
-$ y_R(t) = x(t) ast h_R (t, theta, phi) $
+$
+y_R(t) = x(t) ast h_R (t, theta, phi)
+$
 
 The two outputs are reproduced through headphones. If the source or listener moves, the HRTFs are updated according to the relative direction.
 
@@ -3043,13 +3461,19 @@ A:
 
 The Head-Related Transfer Function (HRTF) is the direction-dependent acoustic transfer function from a sound source to the listener's left or right ear. It describes the filtering effects produced by the head, torso, and pinnae, and therefore contains important spatial cues such as ITD, ILD, and spectral modifications. Its time-domain counterpart is the Head-Related Impulse Response (HRIR)
 
-$ H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)} $
+$
+H_(L,R)(f, theta, phi) = cal(F){h_(L,R)(t, theta, phi)}
+$
 
 HRTFs are used mainly for binaural rendering over headphones. To create the perception of a virtual sound source at a desired direction, the source signal is filtered separately with the left- and right-ear HRTFs corresponding to that direction. In the time domain, this is implemented by convolution with the corresponding HRIRs
 
-$ y_L(t) = x(t) ast h_L (t, theta, phi) $
+$
+y_L(t) = x(t) ast h_L (t, theta, phi)
+$
 
-$ y_R(t) = x(t) ast h_R (t, theta, phi) $
+$
+y_R(t) = x(t) ast h_R (t, theta, phi)
+$
 
 The two resulting signals are reproduced through the left and right headphone channels. If the source or listener moves, the selected HRTFs must be updated according to the relative direction.
 
