@@ -578,7 +578,7 @@ $
 the synthesized signal is
 
 $
-s(n) = a(n) sin(omega_c (n)n + I(n) sin(omega_m(n)n))
+s(n) = a(n) sin(omega_c (n)n + I(n) sin(omega_m (n)n))
 $
 
 The modulation creates sidebands at frequencies
@@ -616,7 +616,7 @@ $
 The nonlinear characteristic can be approximated by a polynomial
 
 $
-y(n) = sum_(i=0)^N a_i x^i(n)
+y(n) = sum_(i=0)^N a_i x^i (n)
 $
 
 When the input is sinusoidal, the nonlinear terms generate new harmonics, so waveshaping can enrich the spectrum and produce effects such as overdrive and distortion.
@@ -650,7 +650,7 @@ $
 The nonlinear function can be approximated by a polynomial
 
 $
-y(n) = sum_(i=0)^N a_i x^i(n)
+y(n) = sum_(i=0)^N a_i x^i (n)
 $
 
 If the input is sinusoidal, the nonlinear terms generate new harmonic components, producing a spectrally richer sound.
@@ -3381,11 +3381,11 @@ BRIR (Binaural Room Impulse Response) also includes the acoustic response of the
 An HRTF-based binaural renderer filters the source signal with the direction-dependent left- and right-ear HRIRs:
 
 $
-x(t) -> h_L (t, theta, phi) -> y_L(t)
+x(t) -> h_L (t, theta, phi) -> y_L (t)
 $
 
 $
-x(t) -> h_R (t, theta, phi) -> y_R(t)
+x(t) -> h_R (t, theta, phi) -> y_R (t)
 $
 
 with
