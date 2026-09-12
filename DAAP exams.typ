@@ -19,12 +19,39 @@
 
   #v(0.8em)
   #set text(size: 11pt)
-  #align(center)[作者：#link("https://github.com/worldedge1933")[\@worldedge1933]]
+  #align(center)[作者：#link("https://github.com/worldedge1933/SASP_Exams")[\@worldedge1933]]
 
   #v(0.6em)
-  #align(center)[2026-06-10]
+  #align(center)[2026-09-12]
 ]
 
+
+#pagebreak()
+
+// -----------------
+// Notes
+// -----------------
+#set page(
+  margin: (top: 22mm, bottom: 22mm, left: 18mm, right: 18mm),
+  columns: 1,
+  background: none,
+  numbering: none,
+)
+
+#set text(size: 18pt, weight: "bold")
+#align(left)[说明]
+
+#v(0.6em)
+#line(length: 100%, stroke: 0.6pt)
+
+#v(1.2em)
+#set text(size: 11pt, weight: "regular")
+
+本笔记为非官方的 DAAP 课程考试题目整理，仅供学习与复习参考。题目来自米兰理工大学（Politecnico di Milano）《Sound analysis, synthesis and processing》课程模块 Digital audio analysis and processing 的历年考试，并按课程主题归类编排；目前尽可能收录了自 2022 年以来的试卷内容。
+
+答案均为个人整理与撰写，可能存在错误或遗漏；如与课程讲义、教师说明或当年试题不一致，请以官方资料为准。
+
+自 2026 年 7 月起，试题风格出现较大变化，考察知识点改变且计算类题目明显增多。因此，本笔记另完整收录了 2026 年 7 月和 9 月两套试卷（未附答案），供复习时参考。
 
 #pagebreak()
 
@@ -1884,3 +1911,81 @@ Thus Capon is data-dependent: it tries to attenuate the actual interfering sourc
 Q: Briefly describe the MUSIC (Multiple Signal Classification) method for the localization of sources based on microphone arrays. (2023-06-26)
 
 A:
+
+
+= 2026-09-08
+
+== 1
+
+Q: A monophonic flute note of duration $2.0 " s"$ is analyzed with Spectral Modeling Synthesis. The deterministic model is
+
+$
+  s(t) = sum_(r=1)^R A_r(t) cos(theta_r(t)) + e(t),
+$
+
+where the residual $e(t) = h_t * u(t)$ is modeled as filtered white noise, summarized per frame by a spectral envelope. The analysis uses a frame hop of $256$ samples at $F_s = 44.1 " kHz"$, the note is harmonic with fundamental $f_0 = 880 " Hz"$, and the analysis bandwidth extends to $22.05 " kHz"$.
+
+(a) The deterministic part is stored as amplitude and frequency trajectories, one pair per partial. How many harmonic partials $R$ lie within the analysis band, and how many analysis frames cover the $2.0 " s"$ note?
+
+(b) The player wants the note slowed to $3.0 " s"$ (a time-stretch factor of $1.5$) with no change in pitch. Explain, separately for the deterministic and the stochastic components, how SMS achieves this. Why is the residual handled with a random phase at resynthesis, and why would simply replaying the original samples slower fail?
+
+(c) Contrast SMS with a plain phase vocoder for this task: give one signal feature of a flute note for which the sines+noise split gives SMS a clear advantage, and name the synthesis blocks the slides assign to each of the two SMS branches.
+
+
+== 2
+
+Q: A 2-tap noise canceller has $w(n) = mat(0.5; -0.2)$, step size $mu = 0.1$, current tap input $u(n) = mat(1; 2)$, and desired response $d(n) = 0.4$. Carry out one LMS iteration: (a) compute $y(n)$; (b) compute $e(n)$; (c) compute $w(n + 1)$.
+
+
+== 3
+
+Q: Write the ideal time-scaled signal $x'(t')$ in the sinusoidal model under a TWF $t' = T(t)$. Explain in words why the amplitude at time $t'$ is read from the original signal at $t = T^(-1)(t')$, and why the instantaneous frequency is unchanged.
+
+
+== 4
+
+Q: A signal has $r(0) = 1$, $r(1) = 0.5$, $r(2) = 0.25$. For $p = 2$: (a) write $R$ and $r$ and solve $R a = r$; (b) compute $D_p$ and $G_p$; (c) write the resulting inverse filter $A(z)$.
+
+
+== 5
+
+Q: Apply a length-3 median filter to
+
+$
+  x = {2, 80, 6, 3, 5, 4},
+$
+
+using boundary extension by repeating the end samples. Show all intermediate windows.
+
+
+= 2026-07-23
+
+== 1
+
+Q: A recording of a sustained vocal duet is analyzed with the goal of separating the two singers’ fundamentals and estimating their frequencies accurately. The signal is sampled at $F_s = 48 " kHz"$. The two fundamentals lie close together, at approximately $f_1 = 196 " Hz"$ and $f_2 = 220 " Hz"$ (a musical interval of roughly a whole tone).
+
+Part (a) — Resolution. You analyze the signal with a Hamming window (type $L = 4$). What is the minimum window length $M$ (in samples and in milliseconds) required to resolve the two fundamentals according to the main-lobe criterion $B_w <= Delta$? Repeat for a rectangular window ($L = 2$) and comment on the trade-off involved in the choice.
+
+Part (b) — Localization accuracy via zero-padding. Suppose the just-noticeable difference (JND) that you want your frequency estimate to respect is $3 " Hz"$. Using the relation $Delta f = plus.minus F_s / (2 N)$ for the peak-localization error of a length-$N$ FFT, determine the minimum FFT length $N$ needed to bring the localization error within the JND. Compare $N$ to the window length $M$ found in part (a) for the Hamming case and state the resulting oversampling (zero-padding) factor. Briefly explain why resolution and localization accuracy are distinct problems requiring distinct remedies.
+
+
+== 2
+
+Q: Define time scaling and pitch scaling of an audio signal. For each, state precisely which characteristic of the signal is altered and which is preserved, and why the two are difficult to separate for a general signal.
+
+
+== 3
+
+Q: In the adaptive noise-cancellation scheme the primary input is a mixture of target signal plus interference, and a reference microphone captures the interference. (a) Identify what plays the role of $d(n)$ and of $u(n)$. (b) Explain, via the orthogonality principle, why the error signal $e(n)$ ends up containing the target signal rather than the noise.
+
+
+== 4
+
+Q: State precisely the optimization problem solved by the Wiener filter. In particular: (a) write the cost function $J$ being minimized; (b) explain why the criterion is called minimum mean-square error; and (c) explain why, for a stationary input, the optimal filter is linear and time-invariant.
+
+
+== 5
+
+Q: The data model assumes the sources lie in the far field. (a) State what this implies for the shape of the wavefronts reaching the array. (b) Explain why, under this assumption, each source is characterized by a single direction of arrival rather than a full position, and what other simplifications (geometry, propagation) accompany it.
+
+

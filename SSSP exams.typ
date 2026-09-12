@@ -19,12 +19,39 @@
 
   #v(0.8em)
   #set text(size: 11pt)
-  #align(center)[作者：#link("https://github.com/worldedge1933")[\@worldedge1933]]
+  #align(center)[作者：#link("https://github.com/worldedge1933/SASP_Exams")[\@worldedge1933]]
 
   #v(0.6em)
-  #align(center)[2026-06-10]
+  #align(center)[2026-09-12]
 ]
 
+
+#pagebreak()
+
+// -----------------
+// Notes
+// -----------------
+#set page(
+  margin: (top: 22mm, bottom: 22mm, left: 18mm, right: 18mm),
+  columns: 1,
+  background: none,
+  numbering: none,
+)
+
+#set text(size: 18pt, weight: "bold")
+#align(left)[说明]
+
+#v(0.6em)
+#line(length: 100%, stroke: 0.6pt)
+
+#v(1.2em)
+#set text(size: 11pt, weight: "regular")
+
+本笔记为非官方的 SSSP 课程考试题目整理，仅供学习与复习参考。题目来自米兰理工大学 (Politecnico di Milano) 2026 Spring《Sound Analysis, Synthesis and Processing》课程模块 Sound synthesis and spatial processing 的历年考试，并按课程主题归类编排；目前尽可能收录了自 2021 年以来的试卷内容。
+
+对于重复出现的题目，仅在首次出现处给出参考答案，后续仅保留题目。答案均为个人整理与撰写，可能存在错误或遗漏；如与课程讲义、教师说明或当年试题不一致，请以官方资料为准。
+
+自 2026 年 7 月起，试题风格出现较大变化，考察知识点改变且计算类题目明显增多。因此，本笔记另完整收录了 2026 年 9 月两套试卷（未附答案），供复习时参考。
 
 #pagebreak()
 
@@ -116,6 +143,7 @@ Q: Describe the matrix data model of a sinusoidal (ballistic) oscillator, and th
 
 
 A:
+
 
 A sinusoidal ballistic oscillator can be described by a two-dimensional state vector whose next state is obtained through a linear transformation of the current state
 
@@ -1261,7 +1289,7 @@ $
 If one delay element is added, the new pitch becomes
 
 $
-f_0' = F_s / (M + 1).
+f_0^' = F_s / (M + 1).
 $
 
 Therefore, the pitch variation is
@@ -3771,3 +3799,72 @@ show the system decouples into $dot.double(q)_1 = -omega_0^2 q_1$ and $dot.doubl
 
 
 A:
+
+
+= 2026-09-08
+
+== 1
+
+Q: Fractional delay can be implemented with an FIR (e.g. truncated/windowed sinc, Lagrange) or with an allpass filter (Thiran). State the principal advantage and the principal drawback of the allpass realization compared with the FIR one in the context of a feedback synthesis loop.
+
+
+== 2
+
+Q: In a Cordis--Anima cellular model, masses and links are interconnected by their K-variables (force/displacement). A direct interconnection creates “non-computable” (delay-free) loops. (a) Explain plainly why such loops are a problem for a sample-by-sample simulation. (b) State the standard fix and the price paid for it.
+
+
+== 3
+
+Q: Show that, for a comb cell of delay $m$ samples ($m T_s$ seconds) to produce a 60 dB decay in time $T_60$, the feedback gain must satisfy
+
+$
+g = 10^(-frac(3 m T_s, T_60)).
+$
+
+Why does the identical relation hold for an allpass cell?
+
+
+== 4
+
+Q: For the across-integration mutator, with $tau equiv R C$, the Laplace relations are $V^- + tau s U^+ = V^+ + tau s U^-$ together with the wave/charge constraints. Define
+
+$
+H(s) = frac(1 - tau s, 1 + tau s)
+$
+
+and derive
+
+$
+V^- = H(s) V^+ + (1 - H(s)) U^-.
+$
+
+Then give the computability condition in discrete time.
+
+
+== 5
+
+Q: In Vector-Based Amplitude Panning, a virtual source in direction
+
+$
+v = mat(sin theta; cos theta)^T
+$
+
+is rendered by the two adjacent loudspeakers $n, n + 1$ at angles $theta_n, theta_(n+1)$ through $v = M g$ with
+
+$
+g = mat(g_n; g_(n+1))^T
+$
+
+and
+
+$
+M = mat(sin theta_n, sin theta_(n+1); cos theta_n, cos theta_(n+1)).
+$
+
+Solve for $g = M^(-1) v$ and show
+
+$
+g_n = frac(sin(theta_(n+1) - theta), sin(theta_(n+1) - theta_n)),
+quad
+g_(n+1) = frac(sin(theta - theta_n), sin(theta_(n+1) - theta_n)).
+$
